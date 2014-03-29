@@ -1,96 +1,84 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>2048</title>
-
-  <link href="style/main.css" rel="stylesheet" type="text/css">
-  <link rel="shortcut icon" href="favicon.ico">
-  <link rel="apple-touch-icon" href="meta/apple-touch-icon.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
-</head>
-<body>
-  <div class="container">
-    <div class="heading">
-      <h1 class="title">2048</h1>
-      <div class="scores-container">
-        <div class="score-container">0</div>
-        <div class="best-container">0</div>
-      </div>
-    </div>
-
-    <div class="above-game">
-      <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
-      <a class="restart-button">New Game</a>
-    </div>
-
-    <div class="game-container">
-      <div class="game-message">
-        <p></p>
-        <div class="lower">
-	        <a class="keep-playing-button">Keep going</a>
-          <a class="retry-button">Try again</a>
-        </div>
-      </div>
-
-      <div class="grid-container">
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-      </div>
-
-      <div class="tile-container">
-
-      </div>
-    </div>
-
-    <p class="game-explanation">
-      <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
-    </p>
-    <hr>
-    <p>
-    <strong class="important">Note:</strong> This site is the official version of 2048. You can play it on your phone via <a href="http://git.io/2048">http://git.io/2048.</a> All other apps or sites are derivatives or fakes, and should be used with caution.
-    </p>
-    <hr>
-    <p>
-    Created by <a href="http://gabrielecirulli.com" target="_blank">Gabriele Cirulli.</a> Based on <a href="https://itunes.apple.com/us/app/1024!/id823499224" target="_blank">1024 by Veewo Studio</a> and conceptually similar to <a href="http://asherv.com/threes/" target="_blank">Threes by Asher Vollmer.</a>
-    </p>
-  </div>
-
-  <script src="js/bind_polyfill.js"></script>
-  <script src="js/classlist_polyfill.js"></script>
-  <script src="js/animframe_polyfill.js"></script>
-  <script src="js/keyboard_input_manager.js"></script>
-  <script src="js/html_actuator.js"></script>
-  <script src="js/grid.js"></script>
-  <script src="js/tile.js"></script>
-  <script src="js/local_storage_manager.js"></script>
-  <script src="js/game_manager.js"></script>
-  <script src="js/application.js"></script>
-</body>
-</html>
+<h1 id="archlinux">Archlinux</h1>
+<h2 id="why-archlinux">Why ArchLinux</h2>
+<h3 id="philosophy">Philosophy</h3>
+<p>First let me brief you with arch philosophy.Any ubuntu or Linux Mint user might have come across system monitor and all those processes running in them at least one time in their entire period of usage.But none bothered to ask do we really need all these programs. And it is quite surprising to know that ubuntu comes with a lot of software that many of us won't be using. So what is the point of having it installed in the first place. Ubuntu is a good distro for starters , but if you want control over your system and want to make things minimalistic arch is the distro for you.</p>
+<h3 id="installation">Installation</h3>
+<p>As pointed out earlier the entire installation process is done via a console. At this point the only guide for you is either  'elinks'  browser or your memory.</p>
+<h3 id="post-installation">Post Installation</h3>
+<p>This is maybe the difficult part where you have to configure your entire system for your use. A GUI interface a window manager or desktop environment that suits your need and gives you comfort could be installed along with the programs that you might need.</p>
+<h3 id="who-this-guide-is-for">Who this guide is for ?</h3>
+<p>When I installed arch linux I just read the arch wiki and only the arch wiki. There is nothing that they miss and the only problem with arch wiki is that if you want to make your system like the one you see on many blogs you have to read through a lot of material and trust me that is a lot to read.But it ultimately pays off but most of these things you don't want if you want to have a quick setup all arranged for you.That is what I provide.</p>
+<h2 id="first-steps">First Steps</h2>
+<p>First you have to download the iso file for arch linux latest one is preferred and then 
+use the following command to <strong>write  it to your device</strong> of preference , In my case my pendrive which is detected as /dev/sdb . You could run 'lsblk' and find the device that is mounted.</p>
+<blockquote>
+<pre><code>dd bs=4M if=/source/file/iso of=/dev/sdb &amp;&amp; sync
+</code></pre>
+</blockquote>
+<p>Now you have to <strong>make and format a partition</strong> in your system . This is safer and better if you do it via your existing operating system. As an arch linux wannabe you might be having another distro in your PC. So start from there create a new ext4 partition and a swap partition you might be familiar with the size of this . So it is no big deal or you could do it via the bootable you just created. Any way have the partitions ready. I would suggest a minimum size of 5G for arch linux installation . You could format your drive using the command given below. </p>
+<blockquote>
+<pre><code> fdisk /dev/sda
+</code></pre>
+</blockquote>
+<p>for gpt partition table use cgdisk . This utility is similar to fdisk . Use these utility at your own risk as you could easily corrupt your system . Command is more or less the same.<br />
+</p>
+<blockquote>
+<pre><code> cgdisk /dev/sda
+</code></pre>
+</blockquote>
+<p>Add a new partition and format it using mkfs.</p>
+<blockquote>
+<pre><code> mkfs.ext4 /dev/sda1
+</code></pre>
+</blockquote>
+<p>if you plan to install arch in sda1 . Now make a swap partition as it is recommended for most linux distributions. </p>
+<blockquote>
+<pre><code> mkswap /dev/sda2
+ swapon /dev/sda2
+</code></pre>
+</blockquote>
+<p>Now list the partitions using lsblk -f . You could check what you have to done. Now mount the device and now your are in the system .<br />
+</p>
+<blockquote>
+<pre><code>mount /dev/sda1 /mnt
+</code></pre>
+</blockquote>
+<h2 id="installing-the-system">Installing the system</h2>
+<p>Now install the system using the pacstrap script . This will provide a system with minimalistic functionalities</p>
+<blockquote>
+<pre><code>pacstrap -i /mnt base
+</code></pre>
+</blockquote>
+<p>After this you could chroot in the installed system generate and fstab and then get along with the rest of the process . This part I have done in a different way . I will talk about that now. As I have told earlier if you have <strong>another linux system</strong>ne running in your system before you installed arch linux and you would like to keep just run </p>
+<blockquote>
+<pre><code>update-grub
+</code></pre>
+</blockquote>
+<p>and your grub will detect arch linux and will show up in the boot options. Generating an fstab is the right method to do it but this is a lot safer. Now you have to configure all your small but important stuff. </p>
+<h2 id="after-installation">After Installation</h2>
+<p>This is the trickiest part there is to in arch linux. First its all a hustle you have to find the correct drivers for video and audio.To start with this you have to install alsamixer alsa-utils </p>
+<blockquote>
+<pre><code> sudo pacman -S alsamixer alsautils
+</code></pre>
+</blockquote>
+<p>Start up alsamixer and unmute the channel of speaker or headset according to your use.
+Video drivers are an important aspect of installation. Most of the latest computer might be having an intel graphics card. So for this your need to install intel video drivers . To support 3D you have to install mesa.
+Media codecs could be installed individually but this is a time consuming task. So it is better if you install mplayer. Many media codecs would come along with it. Thus we have a fully functional light distro.</p>
+<p>After this you could chroot in the installed system generate and fstab and then get along with the rest of the process . This part I have done in a different way . I will talk about that now. As I have told earlier if you have another linux system running in your system before you installed arch linux and you would like to keep just run </p>
+<blockquote>
+<pre><code>update-grub
+</code></pre>
+</blockquote>
+<p>and your grub will detect arch linux and will show up in the boot options. Generating an fstab is the right method to do it but this is a lot safer. Now you have to configure all your small and important stuff. </p>
+<h2 id="after-installation_1">After Installation</h2>
+<p>To install all utilities that you have to install all the drivers for sound card and video card. For sound you need alsa-utils alsa-mixer and all . For video you need to know what your card is and on most modern system there might be an intel graphics card. Install this using </p>
+<blockquote>
+<pre><code>sudo pacman -S alsa-utils alsa-mixer
+</code></pre>
+</blockquote>
+<p>For video cards you need to install your video driver and mesa if you want 3D support </p>
+<blockquote>
+<pre><code>sudo pacman -S intel-driver
+</code></pre>
+</blockquote>
+<p>[back to the top ][top]</p>
