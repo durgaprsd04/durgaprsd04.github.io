@@ -1,4 +1,4 @@
-<h1 id="wzxhzdk0wzxhzdk1archlinux-top"><a name="archlinux"></a>Archlinux (top)</h1>
+<h1 id="wzxhzdk1wzxhzdk2archlinux-top"><a name="archlinux"></a>Archlinux (top)</h1>
 <h2 id="why-archlinux">Why ArchLinux</h2>
 <h3 id="philosophy">Philosophy</h3>
 <p>First let me brief you with arch philosophy.Any ubuntu or Linux Mint user might have come across system monitor and all those processes running in them at least one time in their entire period of usage.But none bothered to ask do we really need all these programs. And it is quite surprising to know that ubuntu comes with a lot of software that many of us won't be using. So what is the point of having it installed in the first place. Ubuntu is a good distro for starters , but if you want control over your system and want to make things minimalistic arch is the distro for you.</p>
@@ -75,3 +75,88 @@ Media codecs could be installed individually but this is a time consuming task. 
 <pre><code>sudo pacman -S alsa-utils alsa-mixer
 </code></pre>
 </blockquote>
+<p>For video cards you need to install your video driver and mesa if you want 3D support </p>
+<blockquote>
+<pre><code>sudo pacman -S intel-driver
+</code></pre>
+</blockquote>
+<p>useradd -m -g users -G wheel,storage,power -s /bin/bash johndoe 
+passwd johndoe</p>
+<p>pacman -S sudo</p>
+<p>pacman -Ss sudo</p>
+<p>EDITOR=nano visudo</p>
+<p>%wheel ALL=(ALL) ALL</p>
+<p>this comees after all this</p>
+<p>speaker-test -c 2</p>
+<p>sudo pacman -S mesa</p>
+<p>sudo pacman -S nvidia lib32-nvidia-utils</p>
+<p>sudo pacman -S xf86-input-synaptics</p>
+<p>pacman -S xorg-twm xorg-xclock xterm</p>
+<p>startx</p>
+<p>aFter installing all this you need to customise your system which could be done by the steps given below. Making your customisab;e means installing a desktop environment of your choice and a window manager of your chocie.I personally like window managers and I have used awesome a smy default one. The difference betwween a desktop environment and a window manager si to be understood . A widnwo manager is the one with a minimal utilities and desktop environment comes with default window manger withn it. it is the one that manages the windows. allignemnt and all that stuff. Which wm and which desktop environment you use it clearly up to you. Whatever customisation I am going to mention here is clearly on a console level.</p>
+<h4 id="customising-your-prompt">Customising your prompt.</h4>
+<p>When you open up your .bashrc file in homes folder usually after fresh installation it is pretty blank. So to start with customisation there is variable know nas PSI which could customise your console while you startup . All the things that I mentioned are done only through a lot of efforts . So don't get fed up </p>
+<p>sudo pacman -S alsa-utils</p>
+<p>I will shown my psi here </p>
+<pre><code>
+PS1="\[\033[0;37m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[0;31m\]\h'; else echo '\[\033[0;33m\]\u\[\033[0;37m\]@\[\033[0;96m\]\h'; fi)\[\033[0;37m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;37m\]]\n\[\033[0;37m\]\342\224
+\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]"
+</code></pre>
+
+<p>just copy this to your .bashrc and you will have a prompt like mine. Now for all the extras.
+Now you have to start installing various programs that you might need like a music player and a media player. As told earlier media player would be a nice option to install the entire codec set as almost all codecs are available with it. Now to start with all the important things.
+I will make a list</p>
+<p>1.media codecs</p>
+<p>2.java runtime environment </p>
+<p>3.some other tweaks . </p>
+<p>Now to install java adn all the things. given below</p>
+<p>You could install any experimental feature you would like to have. And ultimately it is all in your hands. 
+Now about graphics driver. Most of  new configurations will be having a hybrid graphics card and all of the time you might find it difficult to configure your graphics . You can configure your kernel for a particular graphics card and use that one only. Most of us won't be using our high performance graphics anyway. So you could add a line to mkinitcpio.conf file in etc and rebuild kernel or install the linux kernel once again with an improved configuration. This is not  a sure thing but it worked for me quite nicely ( FYI I am using nvida and intel as a performance and default graphics drivers . Some might only be having a single driver in that case you can either add the driver module as a kernel part and build it . I have no prior experience with this part. So I strongly suggest and read through arch linux wiki page for your graphics driver. </p>
+<h4 id="making-it-look-cool">Making it look cool.</h4>
+<p>This is where your creativity comes in . You could customize anything you want . And that in my viewpoint the best any distro can offer. So here is how we will start. First of all the window manager that I am using is awesome and all the customisation listed below are for that . As told earlier this a complete to do list on a need to know basis and I will only show you the whats with proper explanation and not the why's. So to start with we will install awesome. Remember I just started startx and I am at that position. So here is how I look but I install awesome here using </p>
+<blockquote>
+<pre><code> sudo pacman -S awesome
+</code></pre>
+</blockquote>
+<p>As I told earlier awesome is simply elegant and I assume you are not familiar with window managers as a whole. So here are some tips. </p>
+<p>Windows is your default key for almost all things. 
+Type windows + p  -application menu 
+windows+Enter     -terminal</p>
+<p>Now you have to bind all the keys of your computer for your personal use. Normally on starting awesome almost all keys that are needed for a basic usage will be binded and you would find it easier if you already used another window manager like xmonad where you have to start with a not so simple xmonad.hs and build up from that. When I first used awesome the config file was a real difficult thing to start up. After breaking and making a lot of times I learned where to put what and how to not panic. 
+First we will customise our panel a little . The panel is somewhat limited in the number of widgets it shows so we could add more widgets by using a extension in awesome known as vicious . Awesome has got lot of extensions and you could find it in vicious , delightful ,beautiful and all. As told earlier this is need to know guide so download vicious extract itand put in the file <strong><em>blah n</em></strong> . there you will followign lines to add to your rc.lua and then </p>
+<blockquote>
+<p>asldfjlsdfjdsjflsdjf
+    kajfldjads;lffklsdajfd;ljsdakljf
+    lksjkdfl;sdlfjsdklf;jsdfsdjklfjsf</p>
+</blockquote>
+<p>Now bind your printscr key volume keys and all that if your have anyl
+Printscreen requires image magick orany key capturing program to be installed. You could instal image magick usign </p>
+<blockquote>
+<pre><code>sudo pacman -S imagemagick
+</code></pre>
+</blockquote>
+<p>after that </p>
+<blockquote>
+<pre><code> import 98  screenshtot .png
+</code></pre>
+</blockquote>
+<p>will give you the proper screen shot and so on. now put it in a scripit and then try to add it to lua.<br />
+Remember while changing lua check each time the config is correct or not you could do this by doing awesome -k . This is not a simple job. lua syntaxes are a little difficult so do as it is shown here or better I have provided <a href="somewhere"> rc.lua</a> you could use it. If you run into problems . Befor changes and do thins.</p>
+<blockquote>
+<pre><code>mv /etc/xdg/awesome/rc.lua /etc/xdg/awesome/rc.lua.backup
+</code></pre>
+</blockquote>
+<p>This is alwwasy a good way to reocver your older version if you made your new version woorst by making a typo ro so. Thus we have reached the point where our awesome set up is almost complete there are links to this and you could serch for more customised themes and all. one important thing is how to change wallpaper . There is usually a theme file in rc.lua there are three themes by default you could go to the theme file and change the wallpaper to what you want. And it is same with the icons and all. you could change your workspace with icons 
+and do other important stuff that could make your desktop look cool. </p>
+<p>Now there is always gnome for the newbies you could install this by </p>
+<blockquote>
+<pre><code>sudo pacman -S gnome-shell
+</code></pre>
+</blockquote>
+<p>Now there is one important thing that we missed the gdm the login manager  and that would be gdm . Don't forget to install this or else you won't be having a display add </p>
+<blockquote>
+<pre><code> systemctl start gdm
+</code></pre>
+</blockquote>
+<p>selection to log on. for eyecandy tweaks and terminal applications  we have cmus nd mplayer , mc and htop  . Some of my screenshots are given below . These are for awesome and there are other for gnome and an experimental one called elementary. elementary is somewhat elegant in its style. So that is it. Wish you good lcuk with your venture. </p>
+<p><a href="#archlinux">back to the top</a></p>
