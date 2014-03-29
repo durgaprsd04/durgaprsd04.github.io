@@ -156,7 +156,7 @@ after that
 >      import 98  screenshtot .png 
 
 will give you the proper screen shot and so on. now put it in a scripit and then try to add it to lua.  
-Remember while changing lua check each time the config is correct or not you could do this by doing awesome -k . This is not a simple job. lua syntaxes are a little difficult so do as it is shown here or better I have provided [ rc.lua](somewhere) you could use it. If you run into problems . Befor changes and do thins.
+Remember while changing lua check each time the config is correct or not you could do this by doing awesome -k . This is not a simple job. lua syntaxes are a little difficult so do as it is shown here or better I have provided [ rc.lua](rc.lua) you could use it. If you run into problems . Befor changes and do thins.
 
 >     mv /etc/xdg/awesome/rc.lua /etc/xdg/awesome/rc.lua.backup
 
@@ -172,3 +172,4 @@ Now there is one important thing that we missed the gdm the login manager  and t
 selection to log on. for eyecandy tweaks and terminal applications  we have cmus nd mplayer , mc and htop  . Some of my screenshots are given below . These are for awesome and there are other for gnome and an experimental one called elementary. elementary is somewhat elegant in its style. So that is it. Wish you good lcuk with your venture. 
 
 [back to the top](#archlinux)
+pc 
