@@ -165,19 +165,18 @@ cp /path/for/community.db /var/lib/pacman/sync/
 <blockquote>
 <pre><code> sudo pacman -S alsa-utils</code></pre>
 </blockquote>
-<p>Start up alsamixer and unmute the channel of speaker or headset according to your use.Now install cmus and then check if your audio is working properly.
+<p>Start up alsamixer and unmute the channel of speaker or headset according to your use.
+<p>Now about the alsa-utils you installed earlier you can fire up <code>alsamixer</code> unmute your channel and then test speakers using the command given below </p>
+<blockquote>
+<pre><code>speaker-test -c 2</code></pre>
+</blockquote>
+<p>Now install cmus and then check if your audio is working properly.
 <pre><code>sudo pacman -S cmus</code></pre>
 Video drivers are an important aspect of installation. Most of the latest computer might be having an intel graphics card. So for this your need to install intel video drivers . To support 3D you have to install mesa.
 Media codecs could be installed individually but this is a time consuming task. So it is better if you install mplayer. Many media codecs would come along with it. Thus we have a fully functional light distro.</p>
 <p>After this you could chroot in the installed system generate and fstab and then get along with the rest of the process . This part I have done in a different way . I will talk about that now. As I have told earlier if you have another linux system running in your system before you installed arch linux and you would like to keep just run </p>
-<blockquote>
-<pre><code>update-grub </code></pre>
-</blockquote>
 <p>and your grub will detect arch linux and will show up in the boot options. Generating an fstab is the right method to do it but this is a lot safer. Now you have to configure all your small and important stuff.</p>
 <p>To install all utilities that you have to install all the drivers for sound card and video card. For sound you need alsa-utils alsa-mixer and all . For video you need to know what your card is and on most modern system there might be an intel graphics card. Install this using </p>
-<blockquote>
-<pre><code>sudo pacman -S alsa-utils  </code></pre>
-</blockquote>
 <p>For video cards you need to install your video driver and mesa if you want 3D support </p>
 <blockquote>
 <pre><code>sudo pacman -S intel-driver </code></pre>
@@ -199,10 +198,6 @@ Now open up an editor add your new user to the wheel group by uncommenting the f
 <pre><code>EDITOR=nano visudo</code></pre>
 </blockquote>
 <pre>%wheel ALL=(ALL) ALL</pre>
-<p>Now about the alsa-utils you installed earlier you can fire up alsamixer unmute your channel and then test speakers using the command given below </p>
-<blockquote>
-<pre><code>speaker-test -c 2</code></pre>
-</blockquote>
 <p>For 3D support you have to install mesa . This could be done using the command given below. </p>
 <blockquote>
 <pre><code>sudo pacman -S mesa</code></pre>
@@ -216,17 +211,20 @@ by this command .</p>
 <blockquote>
 <pre>sudo pacman -S xf86-video-intel </pre>
 </blockquote>
-<p>For 3D support you have to install these  </p>
+<p>For 3D support you have to install these intel driver and mesa</p>
 <blockquote>
-<pre>lib32-intel-dri</pre>
+<pre><code>sudo pacman -S mesa</pre>
+<pre>sudo pacman -S lib32-intel-dri</code></pre>
 </blockquote>
 <p>Install the touchpad driver using the given command</p>
 <blockquote>
 <pre><code>sudo pacman -S xf86-input-synaptics</code></pre>
 </blockquote>
-<p>We need some essential component for gui . This might include what is given below and this could bring up a screen like <a href="">this</a></p>
+<p>We need some essential component for GUI . This might include what is given below and this could bring up a screen like <a href="">this</a></p>
 <blockquote>
-<pre>sudo pacman -S xorg-twm xorg-xclock xterm</pre>
+<pre><code>
+sudo pacman -S xorg-server xorg-xinit xorg-server-utils
+sudo pacman -S xorg-twm xorg-xclock xterm</code></pre>
 </blockquote>
 <p>Now start up the Xorg Server using. 
 startx</p>
