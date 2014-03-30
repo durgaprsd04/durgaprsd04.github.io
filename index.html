@@ -157,8 +157,8 @@ cp /path/for/community.db /var/lib/pacman/sync/
 </blockquote>
 <p>in the other one . See if it is detected in its grub. If it is you have got an arch linux system parellel to your current one. Boot into this and then generate an fstab and by doing the following. </p>
 <blockquote>
-<p>  genfstab -U -p /mnt &gt;&gt; /mnt/etc/fstab</p>
-<p>  nano /mnt/etc/fstab</p>
+<pre><code>  genfstab -U -p /mnt &gt;&gt; /mnt/etc/fstab</code></pre>
+<pre><code>  nano /mnt/etc/fstab</code></pre>
 </blockquote>
 <h2>After Installation</h2>
 <p>This is the trickiest part there is to in arch linux. First its all a hustle you have to find the correct drivers for video and audio.To start with this you have to install alsamixer alsa-utils </p>
@@ -221,22 +221,20 @@ by this command .</p>
 </blockquote>
 <p>Install the touchpad driver using the given command</p>
 <blockquote>
-<p>   sudo pacman -S xf86-input-synaptics</p>
+<pre><code>sudo pacman -S xf86-input-synaptics</code></pre>
 </blockquote>
 <p>We need some essential component for gui . This might include what is given below and this could bring up a screen like <a href="">this</a></p>
 <blockquote>
-<p>   pacman -S xorg-twm xorg-xclock xterm</p>
+<pre>   pacman -S xorg-twm xorg-xclock xterm</pre>
 </blockquote>
 <p>Now start up the Xorg Server using. 
 startx</p>
 <p>aFter installing all this you need to customise your system which could be done by the steps given below. Making your customisab;e means installing a desktop environment of your choice and a window manager of your chocie.I personally like window managers and I have used awesome a smy default one. The difference betwween a desktop environment and a window manager si to be understood . A widnwo manager is the one with a minimal utilities and desktop environment comes with default window manger withn it. it is the one that manages the windows. allignemnt and all that stuff. Which wm and which desktop environment you use it clearly up to you. Whatever customisation I am going to mention here is clearly on a console level.</p>
 <h4>Customising your prompt.</h4>
 <p>When you open up your .bashrc file in homes folder usually after fresh installation it is pretty blank. So to start with customisation there is variable know nas PSI which could customise your console while you startup . All the things that I mentioned are done only through a lot of efforts . So don&#39;t get fed up </p>
-<p>sudo pacman -S alsa-utils</p>
 <p>I will shown my psi here </p>
 <pre><code>
-PS1="\[\033[0;37m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[0;31m\]\h'; else echo '\[\033[0;33m\]\u\[\033[0;37m\]@\[\033[0;96m\]\h'; fi)\[\033[0;37m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;37m\]]\n\[\033[0;37m\]\342\224
-\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]"
+PS1="\[\033[0;37m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[0;31m\]\h'; else echo '\[\033[0;33m\]\u\[\033[0;37m\]@\[\033[0;96m\]\h'; fi)\[\033[0;37m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;37m\]]\n\[\033[0;37m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]"
 </code></pre>
 
 <p>just copy this to your .bashrc and you will have a prompt like mine. Now for all the extras.
