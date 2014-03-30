@@ -1,4 +1,4 @@
-#  <a name="archlinux"></a>Archlinux (top)
+#  <a name="archlinux"></a>Archlinux
 
 ##Why ArchLinux
 
@@ -18,31 +18,68 @@ When I installed arch linux I just read the arch wiki and only the arch wiki. Th
 
 ##First Steps
 
-First you have to download the iso file for arch linux latest one is preferred and then 
-use the following command to **write  it to your device** of preference , In my case my pendrive which is detected as /dev/sdb . You could run 'lsblk' and find the device that is mounted.
+First you have to download the iso file for arch linux latest one is preferred and then use the following command to **write  it to your device** of preference , In my case my pendrive which is detected as /dev/sdb . You could run 'lsblk' and find the device that is mounted.
 
 >     dd bs=4M if=/source/file/iso of=/dev/sdb && sync 
 
-Now you have to **make and format a partition** in your system . This is safer and better if you do it via your existing operating system. As an arch linux wannabe you might be having another distro in your PC. So start from there create a new ext4 partition and a swap partition you might be familiar with the size of this . So it is no big deal or you could do it via the bootable you just created. Any way have the partitions ready. I would suggest a minimum size of 5G for arch linux installation . You could format your drive using the command given below. 
-
+Now you have to **make and format a partition** in your system . This is safer and better if you do it via your existing operating system. As an arch linux wannabe you might be having another distro in your PC. So start from there create a new ext4 partition and a swap partition you might be familiar with the size of this . So it is no big deal . You could do it via the bootable you just created. Any way have the partitions ready. I would suggest a minimum size of 5G for arch linux installation . You could have a partition table set up using the following command. 
 
 >      fdisk /dev/sda
 
-for gpt partition table use cgdisk . This utility is similar to fdisk . Use these utility at your own risk as you could easily corrupt your system . Command is more or less the same.  
+For gpt partition table use cgdisk . This utility is similar to fdisk . Use these utilities at your own risk as you could easily corrupt your system . Command is more or less the same.  
 >      cgdisk /dev/sda
 
-Add a new partition and format it using mkfs.
+After a new partition is formed format it using following command.
 >      mkfs.ext4 /dev/sda1
 
 if you plan to install arch in sda1 . Now make a swap partition as it is recommended for most linux distributions. 
-
-  
+ 
 >      mkswap /dev/sda2
 >      swapon /dev/sda2
 
-Now list the partitions using lsblk -f . You could check what you have to done. Now mount the device and now your are in the system .  
+Now list the partitions using lsblk -f . You could check what you have to done. Now mount the device and now your are in the new partition  .  
 
 >     mount /dev/sda1 /mnt
+
+Remeber that you are in a fully functional arch linux system once you boot into the drive. Check if you internet connectivity is available or not using 
+>     ping -c 3 google.co.in
+
+If you are using a regular broadband connection and you are not using an explicit IP you could see ping results. Almost a download of 400 M is required for the installation process. This could be minimized but you have to know what you are stripping down. 
+If you are using an explicit ip . You can type the following command and proceed as follows.
+
+>     ip link
+
+This wil show up all the network options you have .
+You will have three options . One will be lo one will starting with 'e' and other with 'w' but mostly e is your etherne interface . Set it up after disabling dhcp by typing 
+
+>     systemctl disable dhcp.service
+
+Then set up your corresponding ethernet interface.
+
+>     ip link set enp5s0 up .
+
+In your case this enp5s0 would be something else. There is also a set of ip it is as folows.
+>     ip addr add 192.168.74.21/24 dev enp5s0
+
+For those who don't know what /24 means it is the subnet mask. If you are in a university or office mostly this will be 24.It depends on what you give for subnet mask , if it is 255.255.255.0 then it is 24. A google search would provide you with more informantion. 
+Now set up the default router.
+
+>     ip route add default via 192.168.74.1
+
+Enter your gateway name instead of 192.168.74.1 
+
+For adding the dns servers type 
+>   nano /etc/resolv.conf
+
+You could add three DNS servers at maximum . Enter 
+
+<pre><code>nameserver 192.168.254.2 
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+</code></pre>
+
+and replace 192.168.254.2 by your DNS server name. 
+
 
 ##Installing the system
 
@@ -73,32 +110,58 @@ To install all utilities that you have to install all the drivers for sound card
 
 
 For video cards you need to install your video driver and mesa if you want 3D support 
-
+
 >     sudo pacman -S intel-driver 
 
-useradd -m -g users -G wheel,storage,power -s /bin/bash johndoe 
-passwd johndoe
+As I told earlier there is two ways in which post installation could be done. And  one of them is by having another linux installed inyour system and running arch parellel to this . This could have a lot of benefits and there is little chance that your system will be left useless . To add a user type in the following command .
 
-pacman -S sudo
+>    useradd -m -g users -G wheel,storage,power -s /bin/bash newuser 
 
-pacman -Ss sudo
+Set a password for the new user.
 
-EDITOR=nano visudo
+>    passwd johndoe
 
-%wheel ALL=(ALL) ALL
+For most of our super user actions we need sudo to be installed. This could be done by 
+the code below.
 
-this comees after all this
+>   pacman -S sudo
 
-speaker-test -c 2
+>   pacman -Ss sudo
 
-sudo pacman -S mesa
+Now open up an editor add your new user to the wheel group by uncommenting the following. Just remove the % sign. What it essentially does is it gives sudo permission to the users in the wheel group which our 'new user' is a member of.
 
-sudo pacman -S nvidia lib32-nvidia-utils
+>   EDITOR=nano visudo
 
-sudo pacman -S xf86-input-synaptics
+``%wheel ALL=(ALL) ALL
 
-pacman -S xorg-twm xorg-xclock xterm
+Now about the alsa-utils you installed earlier you can fire up alsamixer unmute your channel and then test speakers using the command given below 
 
+>    speaker-test -c 2
+
+For 3D support you have to install mesa . This could be done using the command given below. 
+>   sudo pacman -S mesa
+
+For using your display install intel graphics driver or nvidia graphics driver. Your display driver selection is the most difficult thing while configuring arch linux display . But it could be done . If you have an intel then there is nothing much to think about . Just install the following . You could list the driver you are using 
+by this command .
+
+>    sudo lshw|grep VGA
+
+Mostly it will be intel or AMD or raedon. If you are getting two options you are having a hybrid graphics card. Mostly one of them will be intel . Just install one driver and  I will suggest a solution as we proceed. 
+
+>    sudo pacman -S xf86-video-intel 
+
+For 3D support you have to install these  
+>    lib32-intel-dri
+
+Install the touchpad driver using the given command
+
+>    sudo pacman -S xf86-input-synaptics
+
+We need some essential component for gui . This might include what is given below and this could bring up a screen like [this]()
+
+>    pacman -S xorg-twm xorg-xclock xterm
+
+Now start up the Xorg Server using. 
 startx
 
 
@@ -143,7 +206,7 @@ Type windows + p  -application menu
 windows+Enter     -terminal
 
 Now you have to bind all the keys of your computer for your personal use. Normally on starting awesome almost all keys that are needed for a basic usage will be binded and you would find it easier if you already used another window manager like xmonad where you have to start with a not so simple xmonad.hs and build up from that. When I first used awesome the config file was a real difficult thing to start up. After breaking and making a lot of times I learned where to put what and how to not panic. 
-First we will customise our panel a little . The panel is somewhat limited in the number of widgets it shows so we could add more widgets by using a extension in awesome known as vicious . Awesome has got lot of extensions and you could find it in vicious , delightful ,beautiful and all. As told earlier this is need to know guide so download vicious extract itand put in the file ***blah n*** . there you will followign lines to add to your rc.lua and then 
+First we will customise our panel a little . The panel is somewhat limited in the number of widgets it shows so we could add more widgets by using a extension in awesome known as vicious . Awesome has got lot of extensions and you could find it in vicious , delightful ,beautiful and all. As told earlier this is need to know guide so download vicious extract itand put in the file ***blah n*** . there you will followign lines to add to your rc.lua and then 
 >   asldfjlsdfjdsjflsdjf
 >     kajfldjads;lffklsdajfd;ljsdakljf
 >     lksjkdfl;sdlfjsdklf;jsdfsdjklfjsf
@@ -171,5 +234,5 @@ Now there is one important thing that we missed the gdm the login manager  and t
 
 selection to log on. for eyecandy tweaks and terminal applications  we have cmus nd mplayer , mc and htop  . Some of my screenshots are given below . These are for awesome and there are other for gnome and an experimental one called elementary. elementary is somewhat elegant in its style. So that is it. Wish you good lcuk with your venture. 
 
+
 [back to the top](#archlinux)
-pc 
