@@ -1,4 +1,4 @@
-<h1 id="wzxhzdk2wzxhzdk3archlinux"><a name="archlinux"></a>Archlinux</h1>
+<h1 id="wzxhzdk3wzxhzdk4archlinux"><a name="archlinux"></a>Archlinux</h1>
 <h2 id="why-archlinux">Why ArchLinux</h2>
 <h3 id="philosophy">Philosophy</h3>
 <p>First let me brief you with arch philosophy.Any ubuntu or Linux Mint user might have come across system monitor and all those processes running in them at least one time in their entire period of usage.But none bothered to ask do we really need all these programs. And it is quite surprising to know that ubuntu comes with a lot of software that many of us won't be using. So what is the point of having it installed in the first place. Ubuntu is a good distro for starters , but if you want control over your system and want to make things minimalistic arch is the distro for you.</p>
@@ -86,7 +86,53 @@ nameserver 8.8.8.8
 nameserver 8.8.4.4
 </code></pre>
 
-<p>and replace 192.168.254.2 by your DNS server name. </p>
+<p>and replace 192.168.254.2 by your DNS server name. 
+After getting connected check if you have a working net connection . If you are installing arch linux in a system by removing something you already had
+then there is chance the system will become useless if the installation is interrupted due to network failure. There is always a much safer method in this you will be downloading all the packages and installing them using </p>
+<blockquote>
+<pre><code>pacman -U package.pkg.tar.xz
+</code></pre>
+</blockquote>
+<p>This is somewhat the method of offline installation but as I told earlier having an unrealiable network connection is a serious issue . The method of all the links could be found using the following commands.
+As for any distros there is a list of database files which you first need to create. This include the core, extra community databases. This is usually installed first when you run the script.First download these from the following links.
+<pre><code>
+For x86_64:
+<a href="http://mirror.de.leaseweb.net/archlinux/core/os/x86_64/core.db">http://mirror.de.leaseweb.net/archlinux/core/os/x86-64/core.db</a>
+<a href="http://mirror.de.leaseweb.net/archlinux/core/os/x86_64/core.db.tar.gz">http://mirror.de.leaseweb.net/archlinux/core/os/x86-64/core.db.tar.gz</a>
+<a href="http://mirror.de.leaseweb.net/archlinux/community/os/x86_64/community.db">http://mirror.de.leaseweb.net/archlinux/community/os/x86-64/community.db</a>
+<a href="http://mirror.de.leaseweb.net/archlinux/community/os/x86_64/community.db.tar.gz">http://mirror.de.leaseweb.net/archlinux/community/os/x86-64/community.db.tar.gz</a>
+<a href="http://mirror.de.leaseweb.net/archlinux/extra/os/x86_64/extra.db">http://mirror.de.leaseweb.net/archlinux/extra/os/x86-64/extra.db</a>
+<a href="http://mirror.de.leaseweb.net/archlinux/extra/os/x86_64/extra.db.tar.gz">http://mirror.de.leaseweb.net/archlinux/extra/os/x86-64/extra.db.tar.gz</a>
+<a href="http://mirror.de.leaseweb.net/archlinux/multilib/os/x86_64/multilib.db">http://mirror.de.leaseweb.net/archlinux/multilib/os/x86-64/multilib.db</a>
+<a href="http://mirror.de.leaseweb.net/archlinux/multilib/os/x86_64/multilib.db.tar.gz">http://mirror.de.leaseweb.net/archlinux/multilib/os/x86-64/multilib.db.tar.gz</a></p>
+<p></code></pre></p>
+<p>After this copy these downloaded files to a removable medium mount this during installation. Copy it into these directories and then put the list of packages to be downloaded to pkglist file.To mount a removable medium via terminal type.</p>
+<blockquote>
+<p>sudo mount /dev/sdb /media/some-directory</p>
+</blockquote>
+<pre><code>
+mkdir -p /var/lib/pacman/sync/{core,extra,community}
+rm -r /var/lib/pacman/sync/{core,extra,community}/*
+tar -xzf /path/for/core.db.tar.gz      -C /var/lib/pacman/sync/core
+tar -xzf /path/for/extra.db.tar.gz     -C /var/lib/pacman/sync/extra
+tar -xzf /path/for/community.db.tar.gz -C /var/lib/pacman/sync/community
+tar -xzf /path/for/multilib.db.tar.gz  -C /var/lib/pacman/sync/multilib
+rm -r /var/lib/pacman/sync/*.db
+cp /path/for/core.db /var/lib/pacman/sync/
+cp /path/for/extra.db /var/lib/pacman/sync/
+cp /path/for/community.db /var/lib/pacman/sync/
+</code></pre>
+
+<blockquote>
+<pre><code>   pacman -S --non-confirm  &gt; pkglist
+</code></pre>
+</blockquote>
+<p>Now from the PC with network connection download these packages using command </p>
+<blockquote>
+<pre><code>   wget -nv -i path/to/pkglist
+</code></pre>
+</blockquote>
+<p>Copy these to a removable media and mount it during installation. </p>
 <h2 id="installing-the-system">Installing the system</h2>
 <p>Now install the system using the pacstrap script . This will provide a system with minimalistic functionalities</p>
 <blockquote>
@@ -119,8 +165,7 @@ Media codecs could be installed individually but this is a time consuming task. 
 <pre><code>sudo pacman -S alsa-utils alsa-mixer
 </code></pre>
 </blockquote>
-<p>For video cards you need to install your video driver and mesa if you want 3D support 
-</p>
+<p>For video cards you need to install your video driver and mesa if you want 3D support </p>
 <blockquote>
 <pre><code>sudo pacman -S intel-driver
 </code></pre>
@@ -136,12 +181,11 @@ Media codecs could be installed individually but this is a time consuming task. 
 <p>For most of our super user actions we need sudo to be installed. This could be done by 
 the code below.</p>
 <blockquote>
-<p>pacman -S sudo</p>
-<p>pacman -Ss sudo</p>
-</blockquote>
-<p>Now open up an editor add your new user to the wheel group by uncommenting the following. Just remove the % sign. What it essentially does is it gives sudo permission to the users in the wheel group which our 'new user' is a member of.</p>
-<blockquote>
-<p>EDITOR=nano visudo</p>
+<p>pacman -S sswsw</p>
+<p>pacman -Ss sudo
+
+Now open up an editor add your new user to the wheel group by uncommenting the following. Just remove the % sign. What it essentially does is it gives sudo permission to the users in the wheel group which our 'new user' is a member of.
+EDITOR=nano visudo</p>
 </blockquote>
 <p>``%wheel ALL=(ALL) ALL</p>
 <p>Now about the alsa-utils you installed earlier you can fire up alsamixer unmute your channel and then test speakers using the command given below </p>
