@@ -79,7 +79,48 @@ nameserver 8.8.4.4
 </code></pre>
 
 and replace 192.168.254.2 by your DNS server name. 
+After getting connected check if you have a working net connection . If you are installing arch linux in a system by removing something you already had
+then there is chance the system will become useless if the installation is interrupted due to network failure. There is always a much safer method in this you will be downloading all the packages and installing them using 
+>     pacman -U package.pkg.tar.xz
 
+This is somewhat the method of offline installation but as I told earlier having an unrealiable network connection is a serious issue . The method of all the links could be found using the following commands.
+As for any distros there is a list of database files which you first need to create. This include the core, extra community databases. This is usually installed first when you run the script.First download these from the following links.
+<pre><code>
+For x86_64:
+[http://mirror.de.leaseweb.net/archlinux/core/os/x86-64/core.db](http://mirror.de.leaseweb.net/archlinux/core/os/x86_64/core.db)
+[http://mirror.de.leaseweb.net/archlinux/core/os/x86-64/core.db.tar.gz](http://mirror.de.leaseweb.net/archlinux/core/os/x86_64/core.db.tar.gz)
+[http://mirror.de.leaseweb.net/archlinux/community/os/x86-64/community.db](http://mirror.de.leaseweb.net/archlinux/community/os/x86_64/community.db)
+[http://mirror.de.leaseweb.net/archlinux/community/os/x86-64/community.db.tar.gz](http://mirror.de.leaseweb.net/archlinux/community/os/x86_64/community.db.tar.gz)
+[http://mirror.de.leaseweb.net/archlinux/extra/os/x86-64/extra.db](http://mirror.de.leaseweb.net/archlinux/extra/os/x86_64/extra.db)
+[http://mirror.de.leaseweb.net/archlinux/extra/os/x86-64/extra.db.tar.gz](http://mirror.de.leaseweb.net/archlinux/extra/os/x86_64/extra.db.tar.gz)
+[http://mirror.de.leaseweb.net/archlinux/multilib/os/x86-64/multilib.db](http://mirror.de.leaseweb.net/archlinux/multilib/os/x86_64/multilib.db)
+[http://mirror.de.leaseweb.net/archlinux/multilib/os/x86-64/multilib.db.tar.gz](http://mirror.de.leaseweb.net/archlinux/multilib/os/x86_64/multilib.db.tar.gz)
+
+</code></pre>
+
+After this copy these downloaded files to a removable medium mount this during installation. Copy it into these directories and then put the list of packages to be downloaded to pkglist file.To mount a removable medium via terminal type.
+
+>   sudo mount /dev/sdb /media/some-directory
+
+<pre><code>
+mkdir -p /var/lib/pacman/sync/{core,extra,community}
+rm -r /var/lib/pacman/sync/{core,extra,community}/*
+tar -xzf /path/for/core.db.tar.gz      -C /var/lib/pacman/sync/core
+tar -xzf /path/for/extra.db.tar.gz     -C /var/lib/pacman/sync/extra
+tar -xzf /path/for/community.db.tar.gz -C /var/lib/pacman/sync/community
+tar -xzf /path/for/multilib.db.tar.gz  -C /var/lib/pacman/sync/multilib
+rm -r /var/lib/pacman/sync/*.db
+cp /path/for/core.db /var/lib/pacman/sync/
+cp /path/for/extra.db /var/lib/pacman/sync/
+cp /path/for/community.db /var/lib/pacman/sync/
+</code></pre>
+
+>        pacman -S --non-confirm  > pkglist
+
+Now from the PC with network connection download these packages using command 
+>        wget -nv -i path/to/pkglist
+
+Copy these to a removable media and mount it during installation. 
 
 ##Installing the system
 
@@ -110,7 +151,6 @@ To install all utilities that you have to install all the drivers for sound card
 
 
 For video cards you need to install your video driver and mesa if you want 3D support 
-
 >     sudo pacman -S intel-driver 
 
 As I told earlier there is two ways in which post installation could be done. And  one of them is by having another linux installed inyour system and running arch parellel to this . This could have a lot of benefits and there is little chance that your system will be left useless . To add a user type in the following command .
@@ -124,13 +164,12 @@ Set a password for the new user.
 For most of our super user actions we need sudo to be installed. This could be done by 
 the code below.
 
->   pacman -S sudo
+>   pacman -S sswsw
 
 >   pacman -Ss sudo
-
+
 Now open up an editor add your new user to the wheel group by uncommenting the following. Just remove the % sign. What it essentially does is it gives sudo permission to the users in the wheel group which our 'new user' is a member of.
-
->   EDITOR=nano visudo
+> EDITOR=nano visudo
 
 ``%wheel ALL=(ALL) ALL
 
