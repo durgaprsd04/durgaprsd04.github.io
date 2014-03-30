@@ -85,8 +85,9 @@ then there is chance the system will become useless if the installation is inter
 
 This is somewhat the method of offline installation but as I told earlier having an unrealiable network connection is a serious issue . The method of all the links could be found using the following commands.
 As for any distros there is a list of database files which you first need to create. This include the core, extra community databases. This is usually installed first when you run the script.First download these from the following links.
-<pre><code>
+
 For x86_64:
+
 [http://mirror.de.leaseweb.net/archlinux/core/os/x86-64/core.db](http://mirror.de.leaseweb.net/archlinux/core/os/x86_64/core.db)
 [http://mirror.de.leaseweb.net/archlinux/core/os/x86-64/core.db.tar.gz](http://mirror.de.leaseweb.net/archlinux/core/os/x86_64/core.db.tar.gz)
 [http://mirror.de.leaseweb.net/archlinux/community/os/x86-64/community.db](http://mirror.de.leaseweb.net/archlinux/community/os/x86_64/community.db)
@@ -96,7 +97,6 @@ For x86_64:
 [http://mirror.de.leaseweb.net/archlinux/multilib/os/x86-64/multilib.db](http://mirror.de.leaseweb.net/archlinux/multilib/os/x86_64/multilib.db)
 [http://mirror.de.leaseweb.net/archlinux/multilib/os/x86-64/multilib.db.tar.gz](http://mirror.de.leaseweb.net/archlinux/multilib/os/x86_64/multilib.db.tar.gz)
 
-</code></pre>
 
 After this copy these downloaded files to a removable medium mount this during installation. Copy it into these directories and then put the list of packages to be downloaded to pkglist file.To mount a removable medium via terminal type.
 
