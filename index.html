@@ -209,15 +209,15 @@ Now open up an editor add your new user to the wheel group by uncommenting the f
 <p>For using your display install intel graphics driver or nvidia graphics driver. Your display driver selection is the most difficult thing while configuring arch linux display . But it could be done . If you have an intel then there is nothing much to think about . Just install the following . You could list the driver you are using 
 by this command .</p>
 <blockquote>
-<p>   sudo lshw|grep VGA</p></code>  
+<pre><code>sudo lshw|grep VGA</pre></code>  
 </blockquote>
 <p>Mostly it will be intel or AMD or raedon. If you are getting two options you are having a hybrid graphics card. Mostly one of them will be intel . Just install one driver and  I will suggest a solution as we proceed. </p>
 <blockquote>
-<p>   sudo pacman -S xf86-video-intel </p>
+<pre>sudo pacman -S xf86-video-intel </pre>
 </blockquote>
 <p>For 3D support you have to install these  </p>
 <blockquote>
-<p>   lib32-intel-dri</p>
+<pre>lib32-intel-dri</pre>
 </blockquote>
 <p>Install the touchpad driver using the given command</p>
 <blockquote>
@@ -225,11 +225,11 @@ by this command .</p>
 </blockquote>
 <p>We need some essential component for gui . This might include what is given below and this could bring up a screen like <a href="">this</a></p>
 <blockquote>
-<pre>   pacman -S xorg-twm xorg-xclock xterm</pre>
+<pre>sudo pacman -S xorg-twm xorg-xclock xterm</pre>
 </blockquote>
 <p>Now start up the Xorg Server using. 
 startx</p>
-<p>aFter installing all this you need to customise your system which could be done by the steps given below. Making your customisab;e means installing a desktop environment of your choice and a window manager of your chocie.I personally like window managers and I have used awesome a smy default one. The difference betwween a desktop environment and a window manager si to be understood . A widnwo manager is the one with a minimal utilities and desktop environment comes with default window manger withn it. it is the one that manages the windows. allignemnt and all that stuff. Which wm and which desktop environment you use it clearly up to you. Whatever customisation I am going to mention here is clearly on a console level.</p>
+<p>After installing all this you need to customise your system which could be done by the steps given below. Making your customisab;e means installing a desktop environment of your choice and a window manager of your chocie.I personally like window managers and I have used awesome a smy default one. The difference betwween a desktop environment and a window manager si to be understood . A widnwo manager is the one with a minimal utilities and desktop environment comes with default window manger withn it. it is the one that manages the windows. allignemnt and all that stuff. Which wm and which desktop environment you use it clearly up to you. Whatever customisation I am going to mention here is clearly on a console level.</p>
 <h4>Customising your prompt.</h4>
 <p>When you open up your .bashrc file in homes folder usually after fresh installation it is pretty blank. So to start with customisation there is variable know nas PSI which could customise your console while you startup . All the things that I mentioned are done only through a lot of efforts . So don&#39;t get fed up </p>
 <p>I will shown my psi here </p>
