@@ -89,12 +89,19 @@ As for any distros there is a list of database files which you first need to cre
 For x86_64:
 
 [http://mirror.de.leaseweb.net/archlinux/core/os/x86-64/core.db](http://mirror.de.leaseweb.net/archlinux/core/os/x86_64/core.db)
+
 [http://mirror.de.leaseweb.net/archlinux/core/os/x86-64/core.db.tar.gz](http://mirror.de.leaseweb.net/archlinux/core/os/x86_64/core.db.tar.gz)
+
 [http://mirror.de.leaseweb.net/archlinux/community/os/x86-64/community.db](http://mirror.de.leaseweb.net/archlinux/community/os/x86_64/community.db)
+
 [http://mirror.de.leaseweb.net/archlinux/community/os/x86-64/community.db.tar.gz](http://mirror.de.leaseweb.net/archlinux/community/os/x86_64/community.db.tar.gz)
+
 [http://mirror.de.leaseweb.net/archlinux/extra/os/x86-64/extra.db](http://mirror.de.leaseweb.net/archlinux/extra/os/x86_64/extra.db)
+
 [http://mirror.de.leaseweb.net/archlinux/extra/os/x86-64/extra.db.tar.gz](http://mirror.de.leaseweb.net/archlinux/extra/os/x86_64/extra.db.tar.gz)
+
 [http://mirror.de.leaseweb.net/archlinux/multilib/os/x86-64/multilib.db](http://mirror.de.leaseweb.net/archlinux/multilib/os/x86_64/multilib.db)
+
 [http://mirror.de.leaseweb.net/archlinux/multilib/os/x86-64/multilib.db.tar.gz](http://mirror.de.leaseweb.net/archlinux/multilib/os/x86_64/multilib.db.tar.gz)
 
 
