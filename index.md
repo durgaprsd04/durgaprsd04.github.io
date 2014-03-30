@@ -124,14 +124,29 @@ Copy these to a removable media and mount it during installation.
 
 ##Installing the system
 
-Now install the system using the pacstrap script . This will provide a system with minimalistic functionalities
+Now install the system using the pacstrap script . This will provide a system with minimalistic functionalities .
 
 >     pacstrap -i /mnt base
 
-After this you could chroot in the installed system generate and fstab and then get along with the rest of the process . This part I have done in a different way . I will talk about that now. As I have told earlier if you have **another linux system**ne running in your system before you installed arch linux and you would like to keep just run 
+As far as the entire script is concerned the installation is automated a system with all the given functionalities will be installed. So if you are installing offline you should go through the script [pacstrap](https://github.com/falconindy/arch-install-scripts/blob/master/pacstrap.in).
+
+There is an important thing to consider while you install offline. Go through pacstrap scirpt and some directories are created and if you are installing create them and then install the packages downloaded to 
+>   pacman -r "where you want to install packages" -U pkgname.pkg.tar.xz. 
+
+You could follow up this method for all your packages and then to see if these packages are installed go through `/usr/bin` or `/usr/sbin` . Going through pacstrap script will give you enough information about what is really going through the installation process and you could marvel at the simplicity and correctness of the enire process.There is a lot I want to include but it is beyond the scope of this book as I say . So we will stop here. 
+
+Check if vmlinuz image is generated. mkinitcpio.conf is the file that manages the configuration of kernel . When you build the  kernel here is where you add the modules that are need. We will talk about this in a while.   
+
+After this you could chroot in the installed system generate and fstab and then get along with the rest of the process . This part I have done in a different way . I will talk about that now. As I have told earlier if you have **another linux system** running in your system before you installed arch linux and you would like to keep just run 
 >     update-grub 
 
-and your grub will detect arch linux and will show up in the boot options. Generating an fstab is the right method to do it but this is a lot safer. Now you have to configure all your small but important stuff. 
+in the other one . See if it is detected in its grub. If it is you have got an arch linux system parellel to your current one. Boot into this and then generate an fstab and by doing the following. 
+
+
+>   genfstab -U -p /mnt >> /mnt/etc/fstab
+
+>   nano /mnt/etc/fstab
+
 
 ##After Installation
 This is the trickiest part there is to in arch linux. First its all a hustle you have to find the correct drivers for video and audio.To start with this you have to install alsamixer alsa-utils 
