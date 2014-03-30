@@ -1,3 +1,3 @@
 durgaprsd04.github.io
 =====================
-#This would be way better than my blog
+Some things I know about Linux
