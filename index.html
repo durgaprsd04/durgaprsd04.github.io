@@ -28,17 +28,17 @@
 <h3>Philosophy</h3>
 <p>First let me brief you with arch philosophy.Any ubuntu or Linux Mint user might have come across system monitor and all those processes running in them at least one time in their entire period of usage.But none bothered to ask do we really need all these programs. And it is quite surprising to know that ubuntu comes with a lot of software that many of us won&#39;t be using. So what is the point of having it installed in the first place. Ubuntu is a good distro for starters , but if you want control over your system and want to make things minimalistic arch is the distro for you.</p>
 <h3>Installation</h3>
-<p>As pointed out earlier the entire installation process is done via a console. At this point the only guide for you is either  &#39;elinks&#39;  browser or your memory.</p>
+<p>As pointed out earlier the entire installation process is done via a console. At this point the only guide for you is your memory.</p>
 <h3>Post Installation</h3>
-<p>This is maybe the difficult part where you have to configure your entire system for your use. A GUI interface a window manager or desktop environment that suits your need and gives you comfort could be installed along with the programs that you might need.</p>
+<p>This is the difficult part where you have to configure your entire system for your use. A GUI interface a window manager or desktop environment that suits your need and gives you comfort could be installed along with the programs that you might need.</p>
 <h3>Who this guide is for ?</h3>
-<p>When I installed arch linux I just read the arch wiki and only the arch wiki. There is nothing that they miss and the only problem with arch wiki is that if you want to make your system like the one you see on many blogs you have to read through a lot of material and trust me that is a lot to read.But it ultimately pays off but most of these things you don&#39;t want if you want to have a quick setup all arranged for you.That is what I provide.</p>
+<p>When I installed arch linux I just read the arch wiki and only the arch wiki. There is nothing that they miss and the only problem with arch wiki is that if you want to make your system like the one you see on many blogs you have to read through a lot of material and trust me that is a lot to read.But it ultimately pays off but most of these things you don&#39;t want if you want to have a quick setup  . This is a guide where all is arranged for you.That is what I am trying to provide with an assumption about the knowlege of the readers.</p>
 <h2>First Steps</h2>
-<p>First you have to download the iso file for arch linux latest one is preferred and then use the following command to <strong>write  it to your device</strong> of preference , In my case my pendrive which is detected as /dev/sdb . You could run &#39;lsblk&#39; and find the device that is mounted.</p>
+<p>First you have to download the iso file for arch linux .Latest one is preferred and then use the following command to write  it to your device of preference , In my case my pendrive which is detected as /dev/sdb . You could run <code>lsblk</code> and find the devices that are mounted.</p>
 <blockquote>
 <pre><code>dd bs=4M if=/source/file/iso of=/dev/sdb &amp;&amp; sync </code></pre>
 </blockquote>
-<p>Now you have to <strong>make and format a partition</strong> in your system . This is safer and better if you do it via your existing operating system. As an arch linux wannabe you might be having another distro in your PC. So start from there create a new ext4 partition and a swap partition you might be familiar with the size of this . So it is no big deal . You could do it via the bootable you just created. Any way have the partitions ready. I would suggest a minimum size of 5G for arch linux installation . You could have a partition table set up using the following command. </p>
+<p>Now you have to make and format a partition in your system . This is safer and better if you do it via your existing operating system. As an arch linux wannabe you might be having another Linux Distribution in your PC. So start from there create a new ext4 partition and a swap partition you might be familiar with the size of this . So it is no big deal or you could do it via the bootable you just created. Any way have the partitions ready. I would suggest a minimum size of 5G for arch linux installation . You could have a partition table set up using the following command. </p>
 <blockquote>
 <pre><code> fdisk /dev/sda</code></pre>
 </blockquote>
@@ -89,7 +89,7 @@ Now set up the default router.</p>
 <p>Enter your gateway name instead of 192.168.74.1 </p>
 <p>For adding the dns servers type </p>
 <blockquote>
-<p>  nano /etc/resolv.conf</p>
+<pre> <code>nano /etc/resolv.conf</code></pre>
 </blockquote>
 <p>You could add three DNS servers at maximum . Enter </p>
 <pre><code>nameserver 192.168.254.2 
@@ -172,81 +172,79 @@ cp /path/for/community.db /var/lib/pacman/sync/
 </blockquote>
 <p>Now install cmus and then check if your audio is working properly.
 <pre><code>sudo pacman -S cmus</code></pre>
-Video drivers are an important aspect of installation. Most of the latest computer might be having an intel graphics card. So for this your need to install intel video drivers . To support 3D you have to install mesa.
-Media codecs could be installed individually but this is a time consuming task. So it is better if you install mplayer. Many media codecs would come along with it. Thus we have a fully functional light distro.</p>
-<p>After this you could chroot in the installed system generate and fstab and then get along with the rest of the process . This part I have done in a different way . I will talk about that now. As I have told earlier if you have another linux system running in your system before you installed arch linux and you would like to keep just run </p>
-<p>and your grub will detect arch linux and will show up in the boot options. Generating an fstab is the right method to do it but this is a lot safer. Now you have to configure all your small and important stuff.</p>
-<p>To install all utilities that you have to install all the drivers for sound card and video card. For sound you need alsa-utils alsa-mixer and all . For video you need to know what your card is and on most modern system there might be an intel graphics card. Install this using </p>
-<p>For video cards you need to install your video driver and mesa if you want 3D support </p>
-<blockquote>
-<pre><code>sudo pacman -S intel-driver </code></pre>
-</blockquote>
-<p>As I told earlier there is two ways in which post installation could be done. And  one of them is by having another linux installed inyour system and running arch parellel to this . This could have a lot of benefits and there is little chance that your system will be left useless . To add a user type in the following command .</p>
+<p>Now we need to add a user to the system who has root user previleges . Remember that you cannot run startx as root. This is one important difference between other distributions. Keep it in mind while doing the installation. Just type the following .
 <blockquote>
 <pre><code>   useradd -m -g users -G wheel,storage,power -s /bin/bash newuser </code></pre>
 </blockquote>
-<p>Set a password for the new user.</p>
+<p>Set a password for the new-user.</p>
 <blockquote>
-<pre><code>passwd johndoe</code></pre>
+<pre><code>passwd newuser</code></pre>
 </blockquote>
 <p>For most of our super user actions we need sudo to be installed. This could be done by 
-the code below.</p>
+the code below.This might seem contradictory to what I have written earlier. It is purely out of habit and I will correct it as soon as possible. In my case sudo was already installed . If and error comes just remove the sudo part and enter command . Any commands prior to this for that matter. </p>
 <blockquote>
 <pre><code>pacman -S sudo</code></pre>
 
-Now open up an editor add your new user to the wheel group by uncommenting the following. Just remove the % sign. What it essentially does is it gives sudo permission to the users in the wheel group which our &#39;new user&#39; is a member of.
+Now open up an nano editor add your new user to the wheel group by uncommenting the following. Just remove the % sign. What it essentially does is it gives sudo permission to the users in the wheel group which our &#39;new user&#39; is a member of.
 <pre><code>EDITOR=nano visudo</code></pre>
 </blockquote>
 <pre>%wheel ALL=(ALL) ALL</pre>
-<p>For 3D support you have to install mesa . This could be done using the command given below. </p>
-<blockquote>
-<pre><code>sudo pacman -S mesa</code></pre>
-</blockquote>
 <p>For using your display install intel graphics driver or nvidia graphics driver. Your display driver selection is the most difficult thing while configuring arch linux display . But it could be done . If you have an intel then there is nothing much to think about . Just install the following . You could list the driver you are using 
 by this command .</p>
 <blockquote>
 <pre><code>sudo lshw|grep VGA</pre></code>  
 </blockquote>
-<p>Mostly it will be intel or AMD or raedon. If you are getting two options you are having a hybrid graphics card. Mostly one of them will be intel . Just install one driver and  I will suggest a solution as we proceed. </p>
+<p>Mostly it will be intel or AMD or raedon. If you are getting two options you are having a hybrid graphics card. Mostly one of them will be intel. Just install one driver and  I will suggest a solution as we proceed. </p>
 <blockquote>
 <pre>sudo pacman -S xf86-video-intel </pre>
 </blockquote>
 <p>For 3D support you have to install these intel driver and mesa</p>
 <blockquote>
-<pre><code>sudo pacman -S mesa</pre>
-<pre>sudo pacman -S lib32-intel-dri</code></pre>
+<pre><code>sudo pacman -S mesa
+sudo pacman -S lib32-intel-dri</code></pre>
 </blockquote>
 <p>Install the touchpad driver using the given command</p>
 <blockquote>
 <pre><code>sudo pacman -S xf86-input-synaptics</code></pre>
 </blockquote>
-<p>We need some essential component for GUI . This might include what is given below and this could bring up a screen like <a href="">this</a></p>
+<p>We need some essential component for GUI . This might include what is given below and this could bring up a screen like <a href="screenshot.png">this</a></p>
 <blockquote>
-<pre><code>
-sudo pacman -S xorg-server xorg-xinit xorg-server-utils
+
+<pre><code>sudo pacman -S xorg-server xorg-xinit xorg-server-utils
 sudo pacman -S xorg-twm xorg-xclock xterm</code></pre>
 </blockquote>
 <p>Now start up the Xorg Server using. 
-startx</p>
-<p>After installing all this you need to customise your system which could be done by the steps given below. Making your customisab;e means installing a desktop environment of your choice and a window manager of your chocie.I personally like window managers and I have used awesome a smy default one. The difference betwween a desktop environment and a window manager si to be understood . A widnwo manager is the one with a minimal utilities and desktop environment comes with default window manger withn it. it is the one that manages the windows. allignemnt and all that stuff. Which wm and which desktop environment you use it clearly up to you. Whatever customisation I am going to mention here is clearly on a console level.</p>
+<code>startx</code></p>
+<p>After installing all this you need to customise your system which could be done by the steps given below. Making your customisable means installing a desktop environment of your choice and a window manager of your chocie.I personally like window managers and I have used awesome a smy default one. The difference between a desktop environment and a window manager is to be understood . A window manager is the one with a minimal utilities and desktop environment comes with default window manger withn it. It is the one that manages the windows allignment and arrangement and all that stuff. Which WM and which desktop environment you use it clearly up to you. Whatever customisation I am going to mention here is clearly done on <a href="http://awesome.naquadah.org/">Awesome</a>.This is a new generation Window Manager.A couple of screenshots are given below.
+	<br><a href="screenshots/screenshot.png">screenshot 1></a><br>
+	<a href="screenshots/screenshot1.png">screenshot 2></a><br>
+	<a href="screenshots/screenshot2.png">screenshot 3></a><br>
+	<a href="screenshots/screenshot2.png">screenshot 4></a><br>
+	<a href="screenshots/screenshot2.png">screenshot 5></a>
+.</p>
 <h4>Customising your prompt.</h4>
 <p>When you open up your .bashrc file in homes folder usually after fresh installation it is pretty blank. So to start with customisation there is variable know nas PSI which could customise your console while you startup . All the things that I mentioned are done only through a lot of efforts . So don&#39;t get fed up </p>
 <p>I will shown my psi here </p>
+<blockquote>
 <pre><code>
 PS1="\[\033[0;37m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[0;31m\]\h'; else echo '\[\033[0;33m\]\u\[\033[0;37m\]@\[\033[0;96m\]\h'; fi)\[\033[0;37m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;37m\]]\n\[\033[0;37m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]"
-</code></pre>
-
-<p>just copy this to your .bashrc and you will have a prompt like mine. Now for all the extras.
-Now you have to start installing various programs that you might need like a music player and a media player. As told earlier media player would be a nice option to install the entire codec set as almost all codecs are available with it. Now to start with all the important things.
-I will make a list</p>
-<p>1.media codecs</p>
-<p>2.java runtime environment </p>
-<p>3.some other tweaks . </p>
-<p>Now to install java adn all the things. given below</p>
-<p>You could install any experimental feature you would like to have. And ultimately it is all in your hands. 
-Now about graphics driver. Most of  new configurations will be having a hybrid graphics card and all of the time you might find it difficult to configure your graphics . You can configure your kernel for a particular graphics card and use that one only. Most of us won&#39;t be using our high performance graphics anyway. So you could add a line to mkinitcpio.conf file in etc and rebuild kernel or install the linux kernel once again with an improved configuration. This is not  a sure thing but it worked for me quite nicely ( FYI I am using nvida and intel as a performance and default graphics drivers . Some might only be having a single driver in that case you can either add the driver module as a kernel part and build it . I have no prior experience with this part. So I strongly suggest and read through arch linux wiki page for your graphics driver. </p>
+</code>
+</pre>
+</blockquote>
+<p>Just copy this to your .bashrc and you will have a prompt like mine. For more information visit <a href="https://wiki.archlinux.org/index.php/Color_Bash_Prompt/">Arch Wiki</a> about prompts.
+<h4>Login managers</h4>
+<p>This is the one that you see while logging  in. Ubuntu uses LightDM and Gnome uses GDM . My personal choice is GDM. So here is how you install gdm. 
+<pre><code>sudo pacman -S gdm</code></pre>
+You can type  systemctl start gdm to test it and to start it on boot you can enable 
+<pre><code>systemctl enable gdm </code></pre>
+This would give you enough for now. For more information about login managers check out Arch Wiki.
+<h4>Extra Stuff</h4>
+Now you have to start installing various programs that you might need like a music player and a media player. Media player would be a nice option to install than the entire codec set as almost all codecs are available with it. mplayer would provide and excellent choice for a media player. To install mplayer
+<pre><code>sudo pacman -S mplayer </code></pre>
+<p> The list of extra stuff you need is up to you . Most of you might need a GUI browser. You could install firefox from Arch linux repositories.
+<pre><code>sudo pacman -S firefox</code></pre>
 <h4>Making it look cool.</h4>
-<p>This is where your creativity comes in . You could customize anything you want . And that in my viewpoint the best any distro can offer. So here is how we will start. First of all the window manager that I am using is awesome and all the customisation listed below are for that . As told earlier this a complete to do list on a need to know basis and I will only show you the whats with proper explanation and not the why&#39;s. So to start with we will install awesome. Remember I just started startx and I am at that position. So here is how I look but I install awesome here using </p>
+<p>This is where your creativity comes in . You could customize anything you want . And that in my viewpoint the best any distro can offer. So here is how we will start. First of all the window manager that I am going to use is awesome and all the customisation listed below are for that . As told earlier this a complete to do list on a need to know basis and I will only show you the whats with proper explanation and not the why&#39;s. So to start with we will install awesome. Remember I just started startx and I am at that position. So to install awesome I type the following command at the terminal.</p>
 <blockquote>
 <pre><code> sudo pacman -S awesome</code></pre>
 </blockquote>
@@ -254,15 +252,37 @@ Now about graphics driver. Most of  new configurations will be having a hybrid g
 <p>Windows is your default key for almost all things. 
 Type windows + p  -application menu 
 windows+Enter     -terminal</p>
-<p>Now you have to bind all the keys of your computer for your personal use. Normally on starting awesome almost all keys that are needed for a basic usage will be binded and you would find it easier if you already used another window manager like xmonad where you have to start with a not so simple xmonad.hs and build up from that. When I first used awesome the config file was a real difficult thing to start up. After breaking and making a lot of times I learned where to put what and how to not panic. 
-First we will customise our panel a little . The panel is somewhat limited in the number of widgets it shows so we could add more widgets by using a extension in awesome known as vicious . Awesome has got lot of extensions and you could find it in vicious , delightful ,beautiful and all. As told earlier this is need to know guide so download vicious extract itand put in the file <strong><em>blah n</em></strong> . there you will followign lines to add to your rc.lua and then </p>
-<blockquote>
-<p>  asldfjlsdfjdsjflsdjf
-    kajfldjads;lffklsdajfd;ljsdakljf
-    lksjkdfl;sdlfjsdklf;jsdfsdjklfjsf</p>
+<p>Now you have to bind all the keys of your computer for your personal use. Normally on starting awesome almost all keys that are needed for a basic usage will be binded and you would find it easier if you already used another window manager like xmonad where you have to start with a not so simple xmonad.hs and build up from that. When I first used awesome the config file was a real difficult thing to configure but later I came to knew how most of the things worked. 
+<P>Now one might ask what is the use of going through all this.Why can't you install something simple. The idea comes with the philosophy . I want to know what my system is doing and how my system is doing it. By making something simple you are actually hiding the complexities which on knowledge about them would make us marvel at the functionality of all this. After breaking and making a lot of times I learned where to put what and how to not panic. First thing while playing with config files is that almost always all things can be corrected . It is how you do it that makes the things difficult or easy . So let me start with the process of customisatio2
+<p>First we will customise our panel a little . The panel is somewhat limited in the number of widgets it shows so we could add more widgets by using a extension in awesome known as vicious . Awesome has got lot of extensions and you could find it in vicious , delightful ,beautiful and all. As told earlier this is need to know guide so download vicious extract itand put in the file <code>~/.config/awesome</code> . Then add the following lines to your rc.lua and then run <code>awesome -k </code> to check if the configuration file is having no errors.</p>
+<p>Add<blockquote><p><code> vicious = require("vicious")</code>to the beginning of the file. And after the place where define workspaces add these lines
+	<blockcode><pre><code>-- Initialize widget
+   memwidget = wibox.widget.textbox()
+-- Register widget
+   vicious.register(memwidget, vicious.widgets.mem, "|Mem:$1%", 13)
+-- Initialize widget
+cpuwidget = wibox.widget.textbox()
+-- Register widget
+vicious.register(cpuwidget, vicious.widgets.cpu, "|cpu:$1%")
+
+--Bat widget function
+--Directly taken from README of vicious
+  --batwidget = awful.widget.progressbar()
+  --batwidget:set_width(8)
+  --batwidget:set_height(10)
+  --batwidget:set_vertical(true)
+  --batwidget:set_background_color("#494B4F")
+  --batwidget:set_border_color(nil)
+  --batwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 10 },stops = { { 0, "#AECF96" }, { 0.5, "#88A175" }, { 1, "#FF5656" }}})
+  --registering the funciton
+  batwidget = wibox.widget.textbox()
+  --batwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 10 },stops = { { 0, "#AECF96" }, { 0.5, "#88A175" }, { 1, "#FF5656" }}})
+  vicious.register(batwidget, vicious.widgets.bat, "|BAT:$2%", 61, "BAT0")
+</code>
+</pre>
 </blockquote>
-<p>Now bind your printscr key volume keys and all that if your have anyl
-Printscreen requires image magick orany key capturing program to be installed. You could instal image magick usign </p>
+<p>The battery widget with and indication is commented out . You could add it straight way by removing the comments.
+<p>Now bind your printscr key volume keys and any key combinations you want to bind. Printscreen requires image magick or any screen capturing program to be installed. You could install image magick using </p>
 <blockquote>
 <pre><code>sudo pacman -S imagemagick</code></pre>
 </blockquote>
@@ -270,21 +290,15 @@ Printscreen requires image magick orany key capturing program to be installed. Y
 <blockquote>
 <pre><code> import 98  screenshtot .png </code></pre>
 </blockquote>
-<p>will give you the proper screen shot and so on. now put it in a scripit and then try to add it to lua.<br>Remember while changing lua check each time the config is correct or not you could do this by doing awesome -k . This is not a simple job. lua syntaxes are a little difficult so do as it is shown here or better I have provided <a href="rc.lua"> rc.lua</a> you could use it. If you run into problems . Befor changes and do thins.</p>
 <blockquote>
 <pre><code>mv /etc/xdg/awesome/rc.lua /etc/xdg/awesome/rc.lua.backup</code></pre>
 </blockquote>
-<p>This is alwwasy a good way to reocver your older version if you made your new version woorst by making a typo ro so. Thus we have reached the point where our awesome set up is almost complete there are links to this and you could serch for more customised themes and all. one important thing is how to change wallpaper . There is usually a theme file in rc.lua there are three themes by default you could go to the theme file and change the wallpaper to what you want. And it is same with the icons and all. you could change your workspace with icons 
-and do other important stuff that could make your desktop look cool. </p>
+<p>This is alwwasy a good way to recover your older version if you made your new version wrong by making a typo or so. Thus we have reached the point where our awesome set up is almost complete , there are links to this and you could serch for more customised themes and all. One thing that you might want to know is to how change wallpaper . There is usually a theme file in rc.lua there are three themes by default you could go to the theme file and change the wallpaper to what you want. And it is same with the icons and all. You could swap your workspace with icons and all. I am not explaining this part as I will put up another tutorial for awesome enthusiasts.
 <p>Now there is always gnome for the newbies you could install this by </p>
 <blockquote>
 <pre><code>sudo pacman -S gnome-shell</code></pre>
+<p> So by now you have got the idea how to install Arch Linux in your system. 
 </blockquote>
-<p>Now there is one important thing that we missed the gdm the login manager  and that would be gdm . Don&#39;t forget to install this or else you won&#39;t be having a display add </p>
-<blockquote>
-<pre><code> systemctl start gdm </code></pre>
-</blockquote>
-<p>selection to log on. for eyecandy tweaks and terminal applications  we have cmus nd mplayer , mc and htop  . Some of my screenshots are given below . These are for awesome and there are other for gnome and an experimental one called elementary. elementary is somewhat elegant in its style. So that is it. Wish you good lcuk with your venture. </p>
-<p><a href="#archlinux">back to the top</a></p></div>
+</p></div>
 </body>
 </html>
