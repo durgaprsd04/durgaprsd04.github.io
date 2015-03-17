@@ -25,8 +25,64 @@
 <h1 style="padding:20px;"><a name="archlinux"></a>DSpace</h1>
 
 <h2>Introduction</h2>
-This is an installation guide DSpace and Electronic Dissertation tool. I did a lot of work to wards the Dspace set and I am in a position to archive the information. All the information given here is valid for the DSpace versions and OS and systems mentioned below. Though there is a fare chance that it will work in other systems. There is not surety that it is correct choice of action for other systems. The basic installation is as shown in the guide given below. But I will mention the installation steps below as the guide is somewhat generic in nature as it should be but this will be specific for CEntOS 6.5. Though the installation procedure is same there are several differences in both ubuntu and Centos installation. Dependencies and other things can somewhat easily be installed in Ubuntu or any debian based system for that matter. But still the idea remains same. I will update this soon with all the necessary steps needed for installing and maintaining a working DSpace installation. Though there are several piece of software that are needed to do the work 
+This is an installation guide DSpace and Electronic Dissertation tool. I did a lot of work to wards the Dspace set and I am in a position to archive the information. All the information given here is valid for the DSpace versions and OS and systems mentioned below. Though there is a fare chance that it will work in other systems. There is not surety that it is correct choice of action for other systems. The basic installation is as shown in the guide given below. But I will mention the installation steps below as the guide is somewhat generic in nature as it should be but this will be specific for CEntOS 6.5. Though the installation procedure is same there are several differences in both ubuntu and Centos installation. Dependencies and other things can somewhat easily be installed in Ubuntu or any debian based system for that matter. But still the idea remains same. I will update this soon with all the necessary steps needed for installing and maintaining a working DSpace installation. Though there are several piece of software that are needed to do the installation.
 <h2>Installation</h2>
+For most of the part installation is somewhat simple. I will discuss the basic steps I have done to install a software that are needed for setting up DSpace. DSpace needs two build tools one is apache ant and other Apache maven. So to install these you can go here <a href="http://maven.apache.org/download.cgi">for maven</a> and here  <a href="http://ant.apache.org/bindownload.cgi">for ant </a>. Both of these are build tools for Java. Now you need a relational database for the application to work properly. You can download these <a <href="https://www.oracle.com/database/index.html">Oracle DB</a> or <a href="http://www.postgresql.org/download/postgres"> Postgres database</a>. Usually postgres and oracle is available as binary distribution through yum. I have followed these steps. The downloaded software should better be in binary format and you should be able to add these to /usr/local, by editing the shell variable $PATH by,
+<p><code> export PATH=/usr/local/apache-maven-x.x.x:$PATH</code></p>
+<p><code> export PATH=/usr/local/apache-ant-x.x.x:$PATH</code></p>
+<p><code> export PATH=/usr/local/apache-tomcat-x.x.x:$PATH</code></p>
+There is one more application postgres which we can install using the default package manager
+<p><code>yum install postgresql</code></p>As you have guessed you don't need to set the path variables for these. You can also install perl as an extra requirement. Refer the manual for DSpace at the time to get any specific requirements, usually the basic one would be enough. Oracle JDK is also a requirement and you can download it from the site. OpenJDK is known to have issues with JSPUI of the DSpace installation, so it is advisable to use Oracle JDK.
+
+<p>Installation procedure is somewhat complex and tediously long so I will only brief up the quick install steps. If need be the manual can be referred. 
+First you need to add a user named dspace. This could be done as follows.</p>
+<p>
+<code>useradd -m dspace</code>
+</p>
+<p>Then you need to clone the git repository for the current version of it or you can download the latest from the site. I am going to clone the source. 
+This should be done as non privileged user.</p>
+<p>
+<code>git clone https://github.com/DSpace/DSpace.git</code>
+</p>
+<p>This will make a folder in your cloning directory and could be used to build the program. The location of this folder could be anywhere convienient such that changing permissions won't affect the other things. Usually this in the home of DSpace would serve the purpose. Now you need to add a user to DSpace with the following names where postgres is the main database user name and dspace is another DSpace user. This should be done as root. All the steps mentioned below are done as root user and if not it is explicity mentioned.Note that this is for postgres and for using oracle database the steps are mentioned in the DSpace Manual.</p>
+<p>
+<code>createuser -U postgres -d -A -P dspace</code>
+</p>
+<p>Now you need to create a database named dspace with the user dspace as owner.</p>
+<p>
+<code>createdb -U dspace -E UNICODE dspace</code>
+</p>
+<p>Now go to the dspace-source code mentioned from here onwards as <em>[dspace-source] and edit the </em>build.properties.</p>
+<p>
+<code>
+<p>cd [dspace-source]</p>
+</code>
+<code>
+<p>vi build.properties</p>
+</code>
+</p>
+<p>
+<code>mkdir [dspace]</code>
+</p>
+<code>chown dspace [dspace]</code>
+
+<code>su - dspace</code>
+
+<code>cd [dspace-source]/dspace</code>
+
+<code>mvn package</code>
+
+<code>cd [dspace-source]/dspace/target/dspace-<version>-build</code>
+
+<code>ant fresh_install</code>
+
+<code>cp -r [dspace]/webapps/* [tomcat]/webapps</code>
+
+<code>/etc/init.d/tomcat start</code>
+
+<code>[dspace]/bin/dspace create-administrator</code>
+</p>
+
 <h2>Customisation</h2>
 <h2>Configuration Settings</h2>
 
