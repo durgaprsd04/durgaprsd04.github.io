@@ -76,6 +76,49 @@ db.name</code> - postgres or oracle</p>
 <p><code>mvn package</code> after that a dspace directory with target will be formed and inside this a build directory with version number will be found. Inside it you can a properties file where you should type <code>ant fresh_install</code>.</p>
 <p>After successful installation you can copy the webapps file to servlets webapss folder which help to deploy the application. Upto this part not much explanation is needed as most of this steps are described in the DSpace user guide. To start with dspace is also available as a Ubuntu/Debian package which helps us in removing the overhead associated with building and such dependency related issues. </p>
 <h2>Customisation</h2>
+The part customisation is of quite importance in DSpace, we need to do several of these both involved and typical to tune DSpace into our own. The first customisation that is explained is the input forms customisation. The DSpace customisation on input form, that is the form that the user sees while submitting is of utmost importance. The file for customizing can be found in <code>[dspace]/config/input-forms.xml</code> where <code>[dspace]</code> is the installtion direcory. This is an editable with enough parameters. Once you see the file itself you can see effect it has on the submission form. There are some things to note while editing this file. You can have several submission forms designed for several collections. The collections handle id can be provided in the start of the page and this can help it having different submission forms for different collections. Usually the beginning of the form will have something like this.
+
+~~~~~~~
+<form-map>
+   <name-map collection-handle="default" form-name="traditional" />
+ </form-map>
+ <form-map>
+   <name-map collection-handle="123456789/10" form-name="forbooks" />
+ </form-map>
+ <form-map>
+   <name-map collection-handle="123456789/9" form-name="etd" />
+ </form-map>
+ <form-map>
+   <name-map collection
+</verbatim>
+~~~~~~~
+As you can see there is an option on which input form to use for the collection. It is quite convenient. Now for the respective collection's input forms will look something like this. The entire definitions should go inside the `<form-definitions>` tag. The first is the metadata type used which usually is dublic core. So 'dc' will be enough. Then the subclasses are there element and qualifier. These are the types of metadata used. You don't need to bother about it much expect that if you want to add more data types there is an option in DSpace UI. This will be explained in the UI section(if any). Keeping `<repeateable>` true means that more than one datum will be there belonging to the particular class of element and qualifier. Then onebox is an input box with only a single line. Then there is the hint that comes under label tag. Then the tag whether it is required or not. If not required you can give it as false. 
+~~~~~~~
+<form-definitions>
+
+   <form name="traditional">
+     <page number="1">
+       <field>
+         <dc-schema>dc</dc-schema>
+         <dc-element>contributor</dc-element>
+         <dc-qualifier>author</dc-qualifier>
+         <repeatable>true</repeatable>
+         <label>Author(s)</label>
+         <input-type>onebox</input-type>
+         <hint>Enter the names of the authors of this item below.</hint>
+         <required></required>
+       </field>
+        <field>
+         <dc-schema>dc</dc-schema>
+         <dc-element>instdetails</dc-element>
+         <dc-qualifier>rollno</dc-qualifier>
+         <repeatable>true</repeatable>
+         <label>Roll Number</label>
+         <input-type>onebox</input-type>
+         <hint>Enter your roll number.</hint>
+~~~~~~~
+
+
 <h2>Configuration Settings</h2>
 
 
