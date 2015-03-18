@@ -53,36 +53,28 @@ This should be done as non privileged user.</p>
 <code>createdb -U dspace -E UNICODE dspace</code>
 </p>
 <p>Now go to the dspace-source code mentioned from here onwards as <em>[dspace-source] and edit the </em>build.properties.</p>
-<p>
+<p>will  include 
+
 <code>
-<p>cd [dspace-source]</p>
-</code>
-<code>
-<p>vi build.properties</p>
-</code>
-</p>
-<p>
-<code>mkdir [dspace]</code>
-</p>
-<code>chown dspace [dspace]</code>
-
-<code>su - dspace</code>
-
-<code>cd [dspace-source]/dspace</code>
-
-<code>mvn package</code>
-
-<code>cd [dspace-source]/dspace/target/dspace-<version>-build</code>
-
-<code>ant fresh_install</code>
-
-<code>cp -r [dspace]/webapps/* [tomcat]/webapps</code>
-
-<code>/etc/init.d/tomcat start</code>
-
-<code>[dspace]/bin/dspace create-administrator</code>
-</p>
-
+dspace.install.dir 
+</code>- must be set to the <code>[dspace]</code> in this case it is 
+<code>/home/dspace/DSpace/dspace-build</code>.</p>
+<p><code>
+dspace.hostname
+</code> This is the fully-qualified domain name of web server we have used and ip <code>192.168.x.x</code>.</p>
+<p><code>
+dspace.baseUrl</code> - Complete URL of this server's DSpace home page but without any context eg. /xmlui, /oai, etc.</p>
+<p><code>
+dspace.name</code> - "Proper" name of your server, e.g. "My Digital Library"</p>
+<p><code>
+db.name</code> - postgres or oracle</p>
+<p><code>db.username</code> - the database username used in the previous step.</p>
+<p><code>db.password</code> - the database password used in the previous step.</p>
+<p><code>mail.server</code> - fully-qualified domain name of your outgoing mail server. From later on we will configure this so that it uses gmail. This is a very helful functionality and doesn work really well.
+</p></p>
+<p>After configuring these we move on to the build process by going to the source directory <code> [dspace-source]</code>, where we type in </p>
+<p><code>mvn package</code> after that a dspace directory with target will be formed and inside this a build directory with version number will be found. Inside it you can a properties file where you should type <code>ant fresh_install</code>.</p>
+<p>After successful installation you can copy the webapps file to servlets webapss folder which help to deploy the application. Upto this part not much explanation is needed as most of this steps are described in the DSpace user guide. To start with dspace is also available as a Ubuntu/Debian package which helps us in removing the overhead associated with building and such dependency related issues. </p>
 <h2>Customisation</h2>
 <h2>Configuration Settings</h2>
 
