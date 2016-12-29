@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Archlinux installation - A complete tutorial.</title>
+<link href='http://fonts.googleapis.com/css?family=Domine|Open+Sans' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="style.css" type="text/css">
+<style>
+ html, body {
+  margin:0;
+  padding:0;
+ font-family: 'Domine', serif;}
+ body{line-height:1.7em;}
+ .container {
+  width:80%;
+  padding-left:10px;
+  text-align:justify;
+  margin:0 auto;
+ } 
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1 style="padding:20px;"><a name="archlinux"></a>DSpace</h1>
+
+<h2>Introduction</h2>
+This is an installation guide DSpace and Electronic Dissertation tool. I did a lot of work to wards the Dspace set and I am in a position to archive the information. All the information given here is valid for the DSpace versions and OS and systems mentioned below. Though there is a fare chance that it will work in other systems. There is not surety that it is correct choice of action for other systems. The basic installation is as shown in the guide given below. But I will mention the installation steps below as the guide is somewhat generic in nature as it should be but this will be specific for CEntOS 6.5. Though the installation procedure is same there are several differences in both ubuntu and Centos installation. Dependencies and other things can somewhat easily be installed in Ubuntu or any debian based system for that matter. But still the idea remains same. I will update this soon with all the necessary steps needed for installing and maintaining a working DSpace installation. Though there are several piece of software that are needed to do the installation.
+<h2>Installation</h2>
+For most of the part installation is somewhat simple. I will discuss the basic steps I have done to install a software that are needed for setting up DSpace. DSpace needs two build tools one is apache ant and other Apache maven. So to install these you can go here <a href="http://maven.apache.org/download.cgi">for maven</a> and here  <a href="http://ant.apache.org/bindownload.cgi">for ant </a>. Both of these are build tools for Java. Now you need a relational database for the application to work properly. You can download these <a <href="https://www.oracle.com/database/index.html">Oracle DB</a> or <a href="http://www.postgresql.org/download/postgres"> Postgres database</a>. Usually postgres and oracle is available as binary distribution through yum. I have followed these steps. The downloaded software should better be in binary format and you should be able to add these to /usr/local, by editing the shell variable $PATH by,
+<p><code> export PATH=/usr/local/apache-maven-x.x.x:$PATH</code></p>
+<p><code> export PATH=/usr/local/apache-ant-x.x.x:$PATH</code></p>
+<p><code> export PATH=/usr/local/apache-tomcat-x.x.x:$PATH</code></p>
+There is one more application postgres which we can install using the default package manager
+<p><code>yum install postgresql</code></p>As you have guessed you don't need to set the path variables for these. You can also install perl as an extra requirement. Refer the manual for DSpace at the time to get any specific requirements, usually the basic one would be enough. Oracle JDK is also a requirement and you can download it from the site. OpenJDK is known to have issues with JSPUI of the DSpace installation, so it is advisable to use Oracle JDK.
+
+<p>Installation procedure is somewhat complex and tediously long so I will only brief up the quick install steps. If need be the manual can be referred. 
+First you need to add a user named dspace. This could be done as follows.</p>
+<p>
+<code>useradd -m dspace</code>
+</p>
+<p>Then you need to clone the git repository for the current version of it or you can download the latest from the site. I am going to clone the source. 
+This should be done as non privileged user.</p>
+<p>
+<code>git clone https://github.com/DSpace/DSpace.git</code>
+</p>
+<p>This will make a folder in your cloning directory and could be used to build the program. The location of this folder could be anywhere convienient such that changing permissions won't affect the other things. Usually this in the home of DSpace would serve the purpose. Now you need to add a user to DSpace with the following names where postgres is the main database user name and dspace is another DSpace user. This should be done as root. All the steps mentioned below are done as root user and if not it is explicity mentioned.Note that this is for postgres and for using oracle database the steps are mentioned in the DSpace Manual.</p>
+<p>
+<code>createuser -U postgres -d -A -P dspace</code>
+</p>
+<p>Now you need to create a database named dspace with the user dspace as owner.</p>
+<p>
+<code>createdb -U dspace -E UNICODE dspace</code>
+</p>
+<p>Now go to the dspace-source code mentioned from here onwards as <em>[dspace-source] and edit the </em>build.properties.</p>
+<p>will  include 
+
+<code>
+dspace.install.dir 
+</code>- must be set to the <code>[dspace]</code> in this case it is 
+<code>/home/dspace/DSpace/dspace-build</code>.</p>
+<p><code>
+dspace.hostname
+</code> This is the fully-qualified domain name of web server we have used and ip <code>192.168.x.x</code>.</p>
+<p><code>
+dspace.baseUrl</code> - Complete URL of this server's DSpace home page but without any context eg. /xmlui, /oai, etc.</p>
+<p><code>
+dspace.name</code> - "Proper" name of your server, e.g. "My Digital Library"</p>
+<p><code>
+db.name</code> - postgres or oracle</p>
+<p><code>db.username</code> - the database username used in the previous step.</p>
+<p><code>db.password</code> - the database password used in the previous step.</p>
+<p><code>mail.server</code> - fully-qualified domain name of your outgoing mail server. From later on we will configure this so that it uses gmail. This is a very helful functionality and doesn work really well.
+</p></p>
+<p>After configuring these we move on to the build process by going to the source directory <code> [dspace-source]</code>, where we type in </p>
+<p><code>mvn package</code> after that a dspace directory with target will be formed and inside this a build directory with version number will be found. Inside it you can a properties file where you should type <code>ant fresh_install</code>.</p>
+<p>After successful installation you can copy the webapps file to servlets webapss folder which help to deploy the application. Upto this part not much explanation is needed as most of this steps are described in the DSpace user guide. To start with dspace is also available as a Ubuntu/Debian package which helps us in removing the overhead associated with building and such dependency related issues. </p>
+<h2>Customisation</h2>
+<p>The part customisation is of quite importance in DSpace, we need to do several of these both involved and typical to tune DSpace into our own. The first customisation that is explained is the input forms customisation. The DSpace customisation on input form, that is the form that the user sees while submitting is of utmost importance. The file for customizing can be found in <code>[dspace]/config/input-forms.xml</code> where <code>[dspace]</code> is the installtion direcory. This is an editable with enough parameters. Once you see the file itself you can see effect it has on the submission form. There are some things to note while editing this file. You can have several submission forms designed for several collections. The collections handle id can be provided in the start of the page and this can help it having different submission forms for different collections. Usually the beginning of the form will have something like this.</p>
+<pre><code>&lt;form-map&gt;
+   &lt;name-map collection-handle=&quot;default&quot; form-name=&quot;traditional&quot; /&gt;
+ &lt;/form-map&gt;
+ &lt;form-map&gt;
+   &lt;name-map collection-handle=&quot;123456789/10&quot; form-name=&quot;forbooks&quot; /&gt;
+ &lt;/form-map&gt;
+ &lt;form-map&gt;
+   &lt;name-map collection-handle=&quot;123456789/9&quot; form-name=&quot;etd&quot; /&gt;
+ &lt;/form-map&gt;
+ &lt;form-map&gt;
+   &lt;name-map collection
+&lt;/verbatim&gt;
+</code></pre>
+
+<p>As you can see there is an option on which input form to use for the collection. It is quite convenient. Now for the respective collection's input forms will look something like this. The entire definitions should go inside the <code>&lt;form-definitions&gt;</code> tag. The first is the metadata type used which usually is dublic core. So 'dc' will be enough. Then the subclasses are there element and qualifier. These are the types of metadata used. You don't need to bother about it much expect that if you want to add more data types there is an option in DSpace UI. This will be explained in the UI section(if any). Keeping <code>&lt;repeateable&gt;</code> true means that more than one datum will be there belonging to the particular class of element and qualifier. Then onebox is an input box with only a single line. Then there is the hint that comes under label tag. Then the tag whether it is required or not. If not required you can give it as false. </p>
+<pre><code>&lt;form-definitions&gt;
+
+   &lt;form name=&quot;traditional&quot;&gt;
+     &lt;page number=&quot;1&quot;&gt;
+       &lt;field&gt;
+         &lt;dc-schema&gt;dc&lt;/dc-schema&gt;
+         &lt;dc-element&gt;contributor&lt;/dc-element&gt;
+         &lt;dc-qualifier&gt;author&lt;/dc-qualifier&gt;
+         &lt;repeatable&gt;true&lt;/repeatable&gt;
+         &lt;label&gt;Author(s)&lt;/label&gt;
+         &lt;input-type&gt;onebox&lt;/input-type&gt;
+         &lt;hint&gt;Enter the names of the authors of this item below.&lt;/hint&gt;
+         &lt;required&gt;&lt;/required&gt;
+       &lt;/field&gt;
+        &lt;field&gt;
+         &lt;dc-schema&gt;dc&lt;/dc-schema&gt;
+         &lt;dc-element&gt;instdetails&lt;/dc-element&gt;
+         &lt;dc-qualifier&gt;rollno&lt;/dc-qualifier&gt;
+         &lt;repeatable&gt;true&lt;/repeatable&gt;
+         &lt;label&gt;Roll Number&lt;/label&gt;
+         &lt;input-type&gt;onebox&lt;/input-type&gt;
+         &lt;hint&gt;Enter your roll number.&lt;/hint&gt;
+</code></pre>
+
+
+
+<h2>Configuration Settings</h2>
+
+
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Archlinux installation - A complete tutorial.</title>
+<link href='http://fonts.googleapis.com/css?family=Domine|Open+Sans' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="style.css" type="text/css">
+<style>
+ html, body {
+  margin:0;
+  padding:0;
+ font-family: 'Domine', serif;}
+ body{line-height:1.7em;}
+ .container {
+  width:80%;
+  padding-left:10px;
+  text-align:justify;
+  margin:0 auto;
+ }
+  
+ 
+</style>
+</head>
+<body>
+<div class="container">
+<h1 style="padding:20px;"><a name="archlinux"></a>Archlinux</h1>
+
+<h2>Why ArchLinux</h2>
+<h3>Philosophy</h3>
+<p>First let me brief you with arch philosophy.Any ubuntu or Linux Mint user might have come across system monitor and all those processes running in them at least one time in their entire period of usage.But none bothered to ask do we really need all these programs. And it is quite surprising to know that ubuntu comes with a lot of software that many of us won&#39;t be using. So what is the point of having it installed in the first place. Ubuntu is a good distro for starters , but if you want control over your system and want to make things minimalistic arch is the distro for you.</p>
+<h3>Installation</h3>
+<p>As pointed out earlier the entire installation process is done via a console. At this point the only guide for you is your memory.</p>
+<h3>Post Installation</h3>
+<p>This is the difficult part where you have to configure your entire system for your use. A GUI interface a window manager or desktop environment that suits your need and gives you comfort could be installed along with the programs that you might need.</p>
+<h3>Who this guide is for ?</h3>
+<p>When I installed arch linux I just read the arch wiki and only the arch wiki. There is nothing that they miss and the only problem with arch wiki is that if you want to make your system like the one you see on many blogs you have to read through a lot of material and trust me that is a lot to read.But it ultimately pays off but most of these things you don&#39;t want if you want to have a quick setup  . This is a guide where all is arranged for you.That is what I am trying to provide with an assumption about the knowlege of the readers.</p>
+<h2>First Steps</h2>
+<p>First you have to download the iso file for arch linux .Latest one is preferred and then use the following command to write  it to your device of preference , In my case my pendrive which is detected as /dev/sdb . You could run <code>lsblk</code> and find the devices that are mounted.</p>
+
+<p><code>dd bs=4M if=/source/file/iso of=/dev/sdb &amp;&amp; sync </code></p>
+
+<p>Now you have to make and format a partition in your system . This is safer and better if you do it via your existing operating system. As an arch linux wannabe you might be having another Linux Distribution in your PC. So start from there create a new ext4 partition and a swap partition you might be familiar with the size of this . So it is no big deal or you could do it via the bootable you just created. Any way have the partitions ready. I would suggest a minimum size of 5G for arch linux installation . You could have a partition table set up using the following command. </p>
+
+<p><code> fdisk /dev/sda</code></p>
+
+<p>For gpt partition table use cgdisk . This utility is similar to fdisk . Use these utilities at your own risk as you could easily corrupt your system . Command is more or less the same.  </p>
+
+<p><code> cgdisk /dev/sda</code></p>
+
+<p>After a new partition is formed format it using following command.</p>
+
+<p><code> mkfs.ext4 /dev/sda1</code></p>
+
+<p>if you plan to install arch in sda1 . Now make a swap partition as it is recommended for most linux distributions. </p>
+
+<p><code> mkswap /dev/sda2
+ swapon /dev/sda2</code></p>
+
+<p>Now list the partitions using lsblk -f . You could check what you have to done. Now mount the device and now your are in the new partition  .  </p>
+
+<p><code>mount /dev/sda1 /mnt</code></p>
+
+<p>Remeber that you are in a fully functional arch linux system once you boot into the drive. Check if you internet connectivity is available or not using </p>
+
+<p><code>ping -c 3 google.co.in</code></p>
+
+<p>If you are using a regular broadband connection and you are not using an explicit IP you could see ping results. Almost a download of 400 M is required for the installation process. This could be minimized but you have to know what you are stripping down. 
+If you are using an explicit ip . You can type the following command and proceed as follows.</p>
+
+<p><code>ip link</code></p>
+
+<p>This wil show up all the network options you have .
+You will have three options . One will be lo one will starting with &#39;e&#39; and other with &#39;w&#39; but mostly e is your etherne interface . Set it up after disabling dhcp by typing </p>
+
+<p><code>systemctl disable dhcp.service</code></p>
+
+<p>Then set up your corresponding ethernet interface.</p>
+
+<p><code>ip link set enp5s0 up .</code></p>
+
+<p>In your case this enp5s0 would be something else. There is also a set of ip it is as folows.</p>
+
+<p><code>ip addr add 192.168.74.21/24 dev enp5s0</code></p>
+
+<p>For those who don&#39;t know what /24 means it is the subnet mask. If you are in a university or office mostly this will be 24.It depends on what you give for subnet mask , if it is 255.255.255.0 then it is 24. A google search would provide you with more informantion. 
+Now set up the default router.</p>
+
+<p><code>ip route add default via 192.168.74.1</code></p>
+
+<p>Enter your gateway name instead of 192.168.74.1 </p>
+<p>For adding the dns servers type </p>
+
+<p> <code>nano /etc/resolv.conf</code></p>
+
+<p>You could add three DNS servers at maximum . Enter </p>
+<p><code>nameserver 192.168.254.2 
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+</code></p>
+
+<p>and replace 192.168.254.2 by your DNS server name. 
+After getting connected check if you have a working net connection . If you are installing arch linux in a system by removing something you already had
+then there is chance the system will become useless if the installation is interrupted due to network failure. There is always a much safer method in this you will be downloading all the packages and installing them using </p>
+
+<p><code>pacman -U package.pkg.tar.xz</code></p>
+
+<p>This is somewhat the method of offline installation but as I told earlier having an unrealiable network connection is a serious issue . The method of all the links could be found using the following commands.
+As for any distros there is a list of database files which you first need to create. This include the core, extra community databases. This is usually installed first when you run the script.First download these from the following links.</p>
+<p>For x86_64:</p>
+<p><a href="http://mirror.de.leaseweb.net/archlinux/core/os/x86_64/core.db">http://mirror.de.leaseweb.net/archlinux/core/os/x86-64/core.db</a><br>
+<a href="http://mirror.de.leaseweb.net/archlinux/core/os/x86-64/core.db.tar.gz">http://mirror.de.leaseweb.net/archlinux/core/os/x86-64/core.db.tar.gz</a><br>
+<a href="http://mirror.de.leaseweb.net/archlinux/community/os/x86-64/community.db">http://mirror.de.leaseweb.net/archlinux/community/os/x86-64/community.db</a><br>
+<a href="http://mirror.de.leaseweb.net/archlinux/community/os/x86-64/community.db.tar.gz">http://mirror.de.leaseweb.net/archlinux/community/os/x86-64/community.db.tar.gz</a><br>
+<a href="http://mirror.de.leaseweb.net/archlinux/extra/os/x86-64/extra.db">http://mirror.de.leaseweb.net/archlinux/extra/os/x86-64/extra.db</a><br>
+<a href="http://mirror.de.leaseweb.net/archlinux/extra/os/x86-64/extra.db.tar.gz">http://mirror.de.leaseweb.net/archlinux/extra/os/x86-64/extra.db.tar.gz</a><br>
+<a href="http://mirror.de.leaseweb.net/archlinux/multilib/os/x86-64/multilib.db">http://mirror.de.leaseweb.net/archlinux/multilib/os/x86-64/multilib.db</a><br>
+<a href="http://mirror.de.leaseweb.net/archlinux/multilib/os/x86-64/multilib.db.tar.gz">http://mirror.de.leaseweb.net/archlinux/multilib/os/x86-64/multilib.db.tar.gz</a><br></p>
+<p>After this copy these downloaded files to a removable medium mount this during installation. Copy it into these directories and then put the list of packages to be downloaded to pkglist file.To mount a removable medium via terminal type.</p>
+
+<p>  sudo mount /dev/sdb /media/some-directory</p>
+
+<p><code>
+mkdir -p /var/lib/pacman/sync/{core,extra,community}
+rm -r /var/lib/pacman/sync/{core,extra,community}/*
+tar -xzf /path/for/core.db.tar.gz      -C /var/lib/pacman/sync/core
+tar -xzf /path/for/extra.db.tar.gz     -C /var/lib/pacman/sync/extra
+tar -xzf /path/for/community.db.tar.gz -C /var/lib/pacman/sync/community
+tar -xzf /path/for/multilib.db.tar.gz  -C /var/lib/pacman/sync/multilib
+rm -r /var/lib/pacman/sync/*.db
+cp /path/for/core.db /var/lib/pacman/sync/
+cp /path/for/extra.db /var/lib/pacman/sync/
+cp /path/for/community.db /var/lib/pacman/sync/
+</code></p>
+
+
+<p><code>   pacman -S --non-confirm  &gt; pkglist</code></p>
+
+<p>Now from the PC with network connection download these packages using command </p>
+
+<p><code>   wget -nv -i path/to/pkglist</code></p>
+
+<p>Copy these to a removable media and mount it during installation. </p>
+<h2>Installing the system</h2>
+<p>Now install the system using the pacstrap script . This will provide a system with minimalistic functionalities .</p>
+
+<p><code>pacstrap -i /mnt base</code></p>
+
+<p>As far as the entire script is concerned the installation is automated a system with all the given functionalities will be installed. So if you are installing offline you should go through the script <a href="https://github.com/falconindy/arch-install-scripts/blob/master/pacstrap.in">pacstrap</a>.</p>
+<p>There is an important thing to consider while you install offline. Go through pacstrap scirpt and some directories are created and if you are installing create them and then install the packages downloaded to </p>
+
+<p>  pacman -r &quot;where you want to install packages&quot; -U pkgname.pkg.tar.xz. </p>
+
+<p>You could follow up this method for all your packages and then to see if these packages are installed go through <code>/usr/bin</code> or <code>/usr/sbin</code> . Going through pacstrap script will give you enough information about what is really going through the installation process and you could marvel at the simplicity and correctness of the enire process.There is a lot I want to include but it is beyond the scope of this book as I say . So we will stop here. </p>
+<p>Check if vmlinuz image is generated. mkinitcpio.conf is the file that manages the configuration of kernel . When you build the  kernel here is where you add the modules that are need. We will talk about this in a while.   </p>
+<p>After this you could chroot in the installed system generate and fstab and then get along with the rest of the process . This part I have done in a different way . I will talk about that now. As I have told earlier if you have <strong>another linux system</strong> running in your system before you installed arch linux and you would like to keep just run </p>
+
+<p><code>update-grub </code></p>
+
+<p>in the other one . See if it is detected in its grub. If it is you have got an arch linux system parellel to your current one. Boot into this and then generate an fstab and by doing the following. </p>
+
+<p><code>  genfstab -U -p /mnt &gt;&gt; /mnt/etc/fstab</code></p>
+<p><code>  nano /mnt/etc/fstab</code></p>
+
+<h2>After Installation</h2>
+<p>This is the trickiest part there is to in arch linux. First its all a hustle you have to find the correct drivers for video and audio.To start with this you have to install alsamixer alsa-utils </p>
+
+<p><code> sudo pacman -S alsa-utils</code></p>
+
+<p>Start up alsamixer and unmute the channel of speaker or headset according to your use.
+<p>Now about the alsa-utils you installed earlier you can fire up <code>alsamixer</code> unmute your channel and then test speakers using the command given below </p>
+
+<p><code>speaker-test -c 2</code></p>
+
+<p>Now install cmus and then check if your audio is working properly.
+<p><code>sudo pacman -S cmus</code></p>
+<p>Now we need to add a user to the system who has root user previleges . Remember that you cannot run startx as root. This is one important difference between other distributions. Keep it in mind while doing the installation. Just type the following .
+
+<p><code>   useradd -m -g users -G wheel,storage,power -s /bin/bash newuser </code></p>
+
+<p>Set a password for the new-user.</p>
+
+<p><code>passwd newuser</code></p>
+
+<p>For most of our super user actions we need sudo to be installed. This could be done by 
+the code below.This might seem contradictory to what I have written earlier. It is purely out of habit and I will correct it as soon as possible. In my case sudo was already installed . If and error comes just remove the sudo part and enter command . Any commands prior to this for that matter. </p>
+
+<p><code>pacman -S sudo</code></p>
+
+Now open up an nano editor add your new user to the wheel group by uncommenting the following. Just remove the % sign. What it essentially does is it gives sudo permission to the users in the wheel group which our &#39;new user&#39; is a member of.
+
+<p><code>EDITOR=nano visudo</code></p>
+
+<p><code>%wheel ALL=(ALL) ALL</code></p>
+<p>For using your display install intel graphics driver or nvidia graphics driver. Your display driver selection is the most difficult thing while configuring arch linux display . But it could be done . If you have an intel then there is nothing much to think about . Just install the following . You could list the driver you are using 
+by this command .</p>
+
+<p><code>sudo lshw|grep VGA</p></code>  
+
+<p>Mostly it will be intel or AMD or raedon. If you are getting two options you are having a hybrid graphics card. Mostly one of them will be intel. Just install one driver and  I will suggest a solution as we proceed. </p>
+
+<p>sudo pacman -S xf86-video-intel </p>
+
+<p>For 3D support you have to install these intel driver and mesa</p>
+
+<p><code>sudo pacman -S mesa
+sudo pacman -S lib32-intel-dri</code></p>
+
+<p>Install the touchpad driver using the given command</p>
+
+<p><code>sudo pacman -S xf86-input-synaptics</code></p>
+
+<p>We need some essential component for GUI . This might include what is given below and this could bring up a screen like <a href="screenshot.png">this</a></p>
+
+
+<p><code>sudo pacman -S xorg-server xorg-xinit xorg-server-utils
+sudo pacman -S xorg-twm xorg-xclock xterm</code></p>
+
+<p>Now start up the Xorg Server using. 
+<code>startx</code></p>
+<p>After installing all this you need to customise your system which could be done by the steps given below. Making your customisable means installing a desktop environment of your choice and a window manager of your chocie.I personally like window managers and I have used awesome a smy default one. The difference between a desktop environment and a window manager is to be understood . A window manager is the one with a minimal utilities and desktop environment comes with default window manger withn it. It is the one that manages the windows allignment and arrangement and all that stuff. Which WM and which desktop environment you use it clearly up to you. Whatever customisation I am going to mention here is clearly done on <a href="http://awesome.naquadah.org/">Awesome</a>.This is a new generation Window Manager.A couple of screenshots are given below.
+	<br><a href="screenshots/screenshot.png">screenshot 1></a><br>
+	<a href="screenshots/screenshot1.png">screenshot 2></a><br>
+	<a href="screenshots/screenshot2.png">screenshot 3></a><br>
+	<a href="screenshots/screenshot2.png">screenshot 4></a><br>
+	<a href="screenshots/screenshot2.png">screenshot 5></a>
+.</p>
+<h4>Customising your prompt.</h4>
+<p>When you open up your .bashrc file in homes folder usually after fresh installation it is pretty blank. So to start with customisation there is variable know nas PSI which could customise your console while you startup . All the things that I mentioned are done only through a lot of efforts . So don&#39;t get fed up </p>
+<p>I will shown my psi here </p>
+
+<p><code>
+PS1="\[\033[0;37m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[0;31m\]\h'; else echo '\[\033[0;33m\]\u\[\033[0;37m\]@\[\033[0;96m\]\h'; fi)\[\033[0;37m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;37m\]]\n\[\033[0;37m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]"
+</code>
+</p>
+
+<p>Just copy this to your .bashrc and you will have a prompt like mine. For more information visit <a href="https://wiki.archlinux.org/index.php/Color_Bash_Prompt/">Arch Wiki</a> about prompts.
+<h4>Login managers</h4>
+<p>This is the one that you see while logging  in. Ubuntu uses LightDM and Gnome uses GDM . My personal choice is GDM. So here is how you install gdm. 
+<p><code>sudo pacman -S gdm</code></p>
+You can type  systemctl start gdm to test it and to start it on boot you can enable 
+<p><code>systemctl enable gdm </code></p>
+This would give you enough for now. For more information about login managers check out Arch Wiki.
+<h4>Extra Stuff</h4>
+Now you have to start installing various programs that you might need like a music player and a media player. Media player would be a nice option to install than the entire codec set as almost all codecs are available with it. mplayer would provide and excellent choice for a media player. To install mplayer
+<p><code>sudo pacman -S mplayer </code></p>
+<p> The list of extra stuff you need is up to you . Most of you might need a GUI browser. You could install firefox from Arch linux repositories.
+<p><code>sudo pacman -S firefox</code></p>
+<h4>Making it look cool.</h4>
+<p>This is where your creativity comes in . You could customize anything you want . And that in my viewpoint the best any distro can offer. So here is how we will start. First of all the window manager that I am going to use is awesome and all the customisation listed below are for that . As told earlier this a complete to do list on a need to know basis and I will only show you the whats with proper explanation and not the why&#39;s. So to start with we will install awesome. Remember I just started startx and I am at that position. So to install awesome I type the following command at the terminal.</p>
+
+<p><code> sudo pacman -S awesome</code></p>
+
+<p>As I told earlier awesome is simply elegant and I assume you are not familiar with window managers as a whole. So here are some tips. </p>
+<p>Windows is your default key for almost all things. 
+Type windows + p  -application menu 
+windows+Enter     -terminal</p>
+<p>Now you have to bind all the keys of your computer for your personal use. Normally on starting awesome almost all keys that are needed for a basic usage will be binded and you would find it easier if you already used another window manager like xmonad where you have to start with a not so simple xmonad.hs and build up from that. When I first used awesome the config file was a real difficult thing to configure but later I came to knew how most of the things worked. 
+<P>Now one might ask what is the use of going through all this.Why can't you install something simple. The idea comes with the philosophy . I want to know what my system is doing and how my system is doing it. By making something simple you are actually hiding the complexities which on knowledge about them would make us marvel at the functionality of all this. After breaking and making a lot of times I learned where to put what and how to not panic. First thing while playing with config files is that almost always all things can be corrected . It is how you do it that makes the things difficult or easy . So let me start with the process of customisation.
+<p>First we will customise our panel a little . The panel is somewhat limited in the number of widgets it shows so we could add more widgets by using a extension in awesome known as vicious . Awesome has got lot of extensions and you could find it in vicious , delightful ,beautiful and all. As told earlier this is need to know guide so download vicious extract itand put in the file <code>~/.config/awesome</code> . Then add the following lines to your rc.lua and then run <code>awesome -k </code> to check if the configuration file is having no errors.</p>
+<p>Add<code> vicious = require("vicious")</code>to the beginning of the file. And after the place where define workspaces add these lines
+	<p><code>-- Initialize widget
+   memwidget = wibox.widgawesome -ket.textbox()
+-- Register widget
+   vicious.register(memwidget, vicious.widgets.mem, "|Mem:$1%", 13)
+-- Initialize widget
+cpuwidget = wibox.widget.textbox()
+-- Register widget
+vicious.register(cpuwidget, vicious.widgets.cpu, "|cpu:$1%")
+
+--Bat widget function
+--Directly taken from README of vicious
+  --batwidget = awful.widget.progressbar()
+  --batwidget:set_width(8)
+  --batwidget:set_height(10)
+  --batwidget:set_vertical(true)
+  --batwidget:set_background_color("#494B4F")
+  --batwidget:set_border_color(nil)
+  --batwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 10 },stops = { { 0, "#AECF96" }, { 0.5, "#88A175" }, { 1, "#FF5656" }}})
+  --registering the funciton
+  batwidget = wibox.widget.textbox()
+  --batwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 10 },stops = { { 0, "#AECF96" }, { 0.5, "#88A175" }, { 1, "#FF5656" }}})
+  vicious.register(batwidget, vicious.widgets.bat, "|BAT:$2%", 61, "BAT0")
+</code>
+<p>The battery widget with and indication is commented out . You could add it straight way by removing the comments.
+<p>Now bind your printscr key volume keys and any key combinations you want to bind. Printscreen requires image magick or any screen capturing program to be installed. You could install image magick using </p>
+
+<p><code>sudo pacman -S imagemagick</code></p>
+<p>after that </p>
+
+<p><code> import 98  screenshtot .png </code></p>
+
+
+<p><code>mv /etc/xdg/awesome/rc.lua /etc/xdg/awesome/rc.lua.backup</code></p>
+
+<p>This is always a good way to recover your older version if you made your new version wrong by making a typo or so. Thus we have reached the point where our awesome set up is almost complete , there are links to this and you could serch for more customised themes and all. One thing that you might want to know is to how change wallpaper . There is usually a theme file in rc.lua there are three themes by default you could go to the theme file and change the wallpaper to what you want. And it is same with the icons and all. You could swap your workspace with icons and all. I am not explaining this part as I will put up another tutorial for awesome enthusiasts.
+<p>Now there is always gnome for the newbies you could install this by </p>
+
+<p><code>sudo pacman -S gnome-shell</code></p>
+
+So by now you have got the idea how to install Arch Linux in your system.<p> 
+<a href="http://durgaprsd04.github.io/#archlinux">back to top></a>
+</p></div>
+</body>
+</html>

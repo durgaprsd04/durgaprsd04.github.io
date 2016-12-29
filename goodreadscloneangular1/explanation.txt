@@ -1,0 +1,30 @@
+At  the time of wrting we have almost done some of the initial features that were decied to be inlcuded as part of development. These are add hoc requirements and shoudl be done for an exact clone.
+
+
+1)Good reads is famous for shelves. You should be or could have different shelves want to read, curently reading, read, normal. So you can choose between any of these menus. - done
+--------------------------------------------------------------------
+2)you can have a switch between grid and list view - done
+-------------------------------------------------------------
+2a) a kind of feed which says what each user wants to do and such - done
+-------------------------------------------------------------------
+
+4)Sorting based on most rated, longest, alphabetical - - can be done using filters
+
+
+3)ability to organize your shelves - based on users.
+
+
+5)should not be review if it is not in read or currenlty reading state.``
+
+6)Progress tracking for currently reading.
+
+7)Reading progress should be done like review
+
+8)goal setting shoudl be done like review
+
+10)Award for the book most rated and shit.
+
+11) Search functionality
+
+12)Over all stats and all.
+

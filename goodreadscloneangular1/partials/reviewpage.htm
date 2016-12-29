@@ -1,0 +1,94 @@
+<div class="col-sm-12">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <h2>{{review.book.title}}</h2>
+                    <div class="col-sm-3">
+                        <img data-ng-src="images/{{review.book.thumbnail}}" height="256" width="180" />
+                    </div>
+                    <div class="col-sm-6">
+                        {{review.book.description}}
+                    </div>
+                    <div class="col-sm-3">
+                        Author:{{review.book.author}}</p>
+                        ISBN:{{review.book.ISBN}}</p>
+                        Average Rating:{{review.book.rating}}</p>
+                        Number of pages :{{review.book.noofpages}}</p>
+                        Number of reviews:{{review.book.noofreviews}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Let us know what you think about the book
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <form name="reviewForm" data-ng-controller="FormController as formCtrl" data-ng-submit="formCtrl.addReview(review.book.review,review, review.book.bookid)" novalidate>
+                        <div data-ng-show="reviewForm.$valid">
+                            <blockquote>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">This is what it looks like</div>
+                                    <div class="panel-body">
+                                        <h6><strong>{{formCtrl.reviewuserprovided.reviewer}} said</strong></h6>
+                                        </p>
+                                        <h4>{{formCtrl.reviewuserprovided.review}}</h4>
+                                        </p>
+                                        <div class="pull-right">
+                                            <h6>
+                                                {{formCtrl.reviewuserprovided.rating}}
+                                            </h6>
+                                            <h6>--{{formCtrl.reviewuserprovided.revieweremail}}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </blockquote>
+                        </div>
+                        Name <input class="form-control" type="text" data-ng-model='formCtrl.reviewuserprovided.reviewer' required /> I think
+                        <textarea class="form-control" type="text" rows="5" data-ng-model='formCtrl.reviewuserprovided.review' required></textarea> Email
+                        <input class="form-control" type="email" data-ng-model='formCtrl.reviewuserprovided.revieweremail' required />
+                        </p>I think it is a
+                        <select data-ng-model=" formCtrl.reviewuserprovided.rating" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            </select>
+                        </p>
+                        </p>
+                        <input type="submit" class="btn btn-primary" value="PUt iT oUt tHeRE!!" /> form is {{reviewForm.$valid}}
+                    </form>
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Here is what others had to say.
+            </div>
+            <div class="panel-body">
+                <div data-ng-repeat="reviews  in review.book.review">
+                    <div class="col-sm-12">
+                        <h6><strong>{{reviews.reviewer}} said</strong></h6>
+                        </p>
+                        <h4>{{reviews.review}}</h4>
+                        </p>
+                        <div class="pull-right">
+                            <h6>
+                                {{reviews.reviewer}} rated it a {{reviews.rating}}
+                            </h6>
+                            <h6>--{{reviews.revieweremail}}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2"></div>
+</div>

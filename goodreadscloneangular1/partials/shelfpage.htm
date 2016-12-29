@@ -1,0 +1,39 @@
+<div class="col-sm-2"></div>
+<div class="col-sm-8">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-sm-12">
+
+                <h2>{{shelf.book.title}}</h2>
+                <div class="col-sm-3">
+                    <img data-ng-src="images/{{shelf.book.thumbnail}}" height="256" width="180" />
+                    </p>
+
+                </div>
+                <div class="col-sm-6">
+                    {{shelf.book.description}}
+                </div>
+                <div class="col-sm-3">
+                    Author:{{shelf.book.author}}</p>
+                    ISBN:{{shelf.book.ISBN}}</p>
+                    Average Rating:{{shelf.book.rating}}</p>
+                    Number of pages :{{shelf.book.noofpages}}</p>
+                    Number of shelfs:{{shelf.book.noofreviews}}</p>
+
+                    <form name='readerForm' data-ng-submit="shelf.storestatus(shelf.book.bookid)" novalidate>
+
+                        <input type="submit" class="btn btn-success" value='Let them know ...' /></p>
+                        <input class="form-control" type="text" data-ng-model="shelf.userstatus.username" placeholder="Your name here" required/></p>
+
+                        </p>
+                        <select class="form-control" ng-model="shelf.userstatus.status" required>
+<option ng-repeat="rstat in shelf.status">{{rstat.option}}</option>
+        </select></p>
+                        </p>form is {{readerForm.$valid}}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-2"></div>

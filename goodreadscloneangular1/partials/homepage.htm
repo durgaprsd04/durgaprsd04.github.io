@@ -1,0 +1,58 @@
+<a data-ng-click="init.isGridViewOn()">
+    <img src="images/grid.svg" height="64" width="64" /></a>
+Search for:<input type="text" data-ng-model="searchBook" />
+<div class="pull-right">
+
+    <a href='#/'><img src="images/down.svg" height="64" width="64" /></a>
+    <a href='#/'><img src="images/up.svg" height="64" width="64" /></a>
+</div>
+<div>
+    <div data-ng-hide="init.isGridView">
+        <div data-ng-repeat="book in init.books|orderBy:'title'|filter:searchBook">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6">
+                            <h3>{{book.title}}</h3>
+                            <div class="col-sm-6">
+                                <img data-ng-src="images/{{book.thumbnail}}" width="150" height="250" />
+                            </div>
+                            <div class="col-sm-6">
+
+                                </p> Average Rating : {{book.rating}} </p>ISBN:{{book.ISBN}} </p>Author:{{book.author}} </p>Number of Pages :{{book.noofpages}}</p>
+                                Number of reviews:{{book.noofreviews}}</p>
+                                <a href="#review/{{book.bookid}}"><img src="images/whiteboard.svg" height="64" width="64" /> </a>
+
+                                <a href="#shelf/{{book.bookid}}"><img src="images/book.svg" height="64" width="64" /> </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-ng-show="init.isGridView">
+        <div data-ng-repeat="gridbook in init.gridbooklist">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <div class="col-sm-3"></div>
+                        <div data-ng-repeat="gbook in gridbook| orderBy:'title'|filter:searchBook">
+                            <div class="col-sm-2">
+                                <img data-ng-src="images/{{gbook.thumbnail}}" width="150" height="250" />
+                                </p>
+                                <a href="#review/{{book.bookid}}"><img src="images/whiteboard.svg" height="64" width="64" /> </a>
+
+                                <a href="#shelf/{{gbook.bookid}}"><img src="images/book.svg" height="64" width="64" /> </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-3"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
